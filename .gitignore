@@ -15,7 +15,12 @@ venv
 logs/
 
 # data in ml
-ml/data
+ml/data/cleaned
+ml/data/featured
+ml/data/filtered
+ml/data/merged
+ml/data/processed
+ml/data/raw
 
 # C extensions
 *.so
