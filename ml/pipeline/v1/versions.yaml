@@ -1,0 +1,6 @@
+pipeline_v1:
+  clean: 1.0
+  feature: 1.0
+  embed: 1.0
+  data: 2026-01-31
+  notes: "Initial version of pipeline v1"
