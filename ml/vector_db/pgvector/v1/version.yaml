@@ -1,0 +1,5 @@
+schema:
+  name: The Version of schema (postgresql, pgvector)
+  version: 1.0
+  data: 2026-03-31
+  notes: "The Initial code for the postgresql & pgvector DBs"
