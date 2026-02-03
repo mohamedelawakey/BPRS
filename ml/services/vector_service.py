@@ -28,7 +28,7 @@ class VectorService:
             books = [
                 {
                     'book_id': result['book_id'],
-                    'embedding': result['embedding'],
+                    'similarity': result['similarity'],
                 } for result in results
             ]
 
