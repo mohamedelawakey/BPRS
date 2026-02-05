@@ -26,4 +26,5 @@ class Enumerations():
     """
 
     # books
-    top_k = 100
+    top_k_search = 100
+    top_k_rerank = 50
