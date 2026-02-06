@@ -1,3 +1,11 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+EF_SEARCH = int(os.getenv('HNSW_EF_SEARCH', 120))
+
+
 class Enumerations():
     # cleaning patterns
     pattern_domain = r'https?://\S+|www\.\S+'
@@ -9,7 +17,7 @@ class Enumerations():
     useless_symbols_and_signs = r'[^\w\s]'
 
     # SQL Queries
-    ef_search = 'SET hnsw.ef_search = 120;'
+    ef_search = f'SET hnsw.ef_search = {EF_SEARCH};'
 
     vector_service_query = """
         SELECT
