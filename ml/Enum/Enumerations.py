@@ -9,6 +9,8 @@ class Enumerations():
     useless_symbols_and_signs = r'[^\w\s]'
 
     # SQL Queries
+    ef_search = 'SET hnsw.ef_search = 120;'
+
     vector_service_query = """
         SELECT
             book_id,
