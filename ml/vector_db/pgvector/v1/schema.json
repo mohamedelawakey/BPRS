@@ -4,7 +4,7 @@
   ],
   "create_table_books": "CREATE TABLE books(\n  book_id SERIAL PRIMARY KEY,\n  \n  -- fields always returned\n  name TEXT,\n  name_cleaned TEXT,\n  authors TEXT,\n  publisher TEXT,\n  description TEXT,\n  description_cleaned TEXT,\n\n  rating FLOAT,\n  publishyear INT,\n  \n  -- ranking features\n  weighted_rating FLOAT,\n\n  counts_of_review_scaled FLOAT,\n  tech_score_scaled FLOAT,\n  publishyear_scaled FLOAT,\n  average_low_rating FLOAT,\n  average_high_rating FLOAT,\n\n  -- vector\n  embedding VECTOR(384)\n);",
   "create_indexes": [
-    "CREATE INDEX books_embedding_idx ON books USING hnsw (embedding vector_cosine_ops) WITH (lists = 100);",
+    "CREATE INDEX books_embedding_idx ON books USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 200);",
     "ANALYZE books;",
     "CREATE INDEX books_name_cleaned_idx ON books (name_cleaned);",
     "CREATE INDEX books_publishyear_idx ON books (publishyear);",
