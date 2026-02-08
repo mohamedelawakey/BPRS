@@ -1,0 +1,423 @@
+.signup-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    background: var(--color-bg-primary);
+}
+
+.signup-container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.signup-header {
+    margin-bottom: var(--spacing-2xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: var(--transition-fast);
+}
+
+.back-link:hover {
+    color: var(--color-text-primary);
+}
+
+.back-link svg {
+    width: 18px;
+    height: 18px;
+}
+
+.signup-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--spacing-2xl);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+    animation: fadeInUp 0.5s ease;
+}
+
+.signup-form-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.form-header h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.form-header p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-md);
+}
+
+/* Progress Steps */
+.progress-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-2xl);
+    padding: var(--spacing-lg);
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-lg);
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-card);
+    border: 2px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    transition: var(--transition-normal);
+}
+
+.progress-step.active .step-number {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: white;
+}
+
+.progress-step.completed .step-number {
+    background: var(--color-accent-success);
+    border-color: transparent;
+    color: white;
+}
+
+.step-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.progress-step.active .step-label {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.progress-line {
+    width: 80px;
+    height: 2px;
+    background: var(--glass-border);
+    margin: 0 var(--spacing-md);
+    margin-bottom: 24px;
+}
+
+/* Form */
+.signup-form {
+    flex: 1;
+}
+
+.form-step {
+    animation: fadeIn 0.3s ease;
+}
+
+.form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+}
+
+.help-text {
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group input {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: var(--color-bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    font-family: inherit;
+    transition: var(--transition-fast);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: rgba(102, 126, 234, 0.5);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input.error {
+    border-color: var(--color-accent-coral);
+}
+
+.error-message {
+    display: block;
+    margin-top: var(--spacing-xs);
+    color: var(--color-accent-coral);
+    font-size: var(--font-size-xs);
+}
+
+.password-input-wrapper {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+/* Buttons */
+.btn-next,
+.btn-submit,
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.btn-next,
+.btn-submit {
+    width: 100%;
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-glow);
+}
+
+.btn-next:hover,
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-next:disabled,
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-next svg,
+.btn-submit svg {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-back {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--color-text-secondary);
+}
+
+.btn-back:hover {
+    background: var(--color-bg-card-hover);
+    color: var(--color-text-primary);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+.form-actions .btn-back {
+    flex: 0 0 120px;
+}
+
+.form-actions .btn-submit {
+    flex: 1;
+}
+
+.submit-error {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid var(--color-accent-coral);
+    border-radius: var(--radius-md);
+    color: var(--color-accent-coral);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-md);
+}
+
+.submit-error svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.signup-footer {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--glass-border);
+    text-align: center;
+}
+
+.signup-footer p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.signup-footer a {
+    color: #667eea;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.signup-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Benefits Section */
+.signup-benefits {
+    padding: var(--spacing-xl);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--glass-border);
+}
+
+.signup-benefits h3 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-lg);
+}
+
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.benefits-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+}
+
+.benefits-list li:hover {
+    transform: translateX(5px);
+    background: var(--color-bg-card-hover);
+}
+
+.benefits-list svg {
+    width: 24px;
+    height: 24px;
+    color: var(--color-accent-success);
+    flex-shrink: 0;
+}
+
+.benefits-list span {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .signup-content {
+        grid-template-columns: 1fr;
+    }
+
+    .signup-benefits {
+        order: -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .signup-page {
+        padding: var(--spacing-md);
+    }
+
+    .signup-content {
+        padding: var(--spacing-lg);
+    }
+
+    .form-header h1 {
+        font-size: var(--font-size-2xl);
+    }
+
+    .progress-steps {
+        padding: var(--spacing-md);
+    }
+
+    .progress-line {
+        width: 40px;
+        margin: 0 var(--spacing-sm);
+    }
+
+    .step-label {
+        font-size: 10px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn-back {
+        flex: 1;
+    }
+}
