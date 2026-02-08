@@ -1,0 +1,51 @@
+.tag-cloud-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 600px;
+    /* Adjust based on preference */
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    /* Behind search bar mostly, or interact nicely */
+    pointer-events: none;
+    /* Let clicks pass through if needed, though TagCloud usually handles mouse for rotation */
+    opacity: 0.6;
+}
+
+.tag-cloud-container {
+    font-family: var(--font-family);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.tagcloud {
+    display: inline-block;
+    pointer-events: auto;
+    /* Re-enable pointer events for rotation interaction */
+}
+
+.tagcloud--item {
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+    /* Base size */
+}
+
+.tagcloud--item:hover {
+    color: var(--color-accent-primary);
+    text-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+    transform: scale(1.2);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .tag-cloud-wrapper {
+        height: 400px;
+        top: 60%;
+    }
+}
