@@ -1,0 +1,305 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: var(--spacing-sm) 0;
+    background: transparent;
+    /* Kept transparent as requested */
+    transition: background 0.3s ease;
+}
+
+/* Add background on scroll if needed, but for now keep transparent */
+.header.scrolled {
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.logo-image {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(102, 126, 234, 0.4));
+    transition: transform 0.3s ease;
+}
+
+.logo:hover .logo-image {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 12px rgba(102, 126, 234, 0.6));
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.nav-link {
+    position: relative;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    transition: var(--transition-normal);
+    padding: var(--spacing-xs) 0;
+    text-decoration: none;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-text-primary);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.nav-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--glass-border);
+    margin: 0 var(--spacing-xs);
+}
+
+/* Integrated GitHub Icon - Now with Color */
+.nav-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #667eea;
+    /* Primary blue color */
+    transition: var(--transition-normal);
+    padding: 8px;
+    border-radius: var(--radius-full);
+    background: rgba(102, 126, 234, 0.15);
+    /* Light blue background */
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.nav-icon-link svg {
+    width: 20px;
+    height: 20px;
+    filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.4));
+}
+
+.nav-icon-link:hover {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.nav-icon-link:hover svg {
+    filter: none;
+}
+
+
+/* Activity Indicator - Standalone Neon Dot */
+.activity-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xs);
+}
+
+.activity-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: neonPulse 2s ease-in-out infinite;
+    box-shadow:
+        0 0 0 2px rgba(16, 185, 129, 0.2),
+        0 0 8px rgba(16, 185, 129, 0.9),
+        0 0 16px rgba(16, 185, 129, 0.6),
+        0 0 24px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes neonPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow:
+            0 0 0 2px rgba(16, 185, 129, 0.2),
+            0 0 8px rgba(16, 185, 129, 0.9),
+            0 0 16px rgba(16, 185, 129, 0.6),
+            0 0 24px rgba(16, 185, 129, 0.4);
+    }
+
+    50% {
+        transform: scale(1.2);
+        box-shadow:
+            0 0 0 3px rgba(16, 185, 129, 0.3),
+            0 0 12px rgba(16, 185, 129, 1),
+            0 0 24px rgba(16, 185, 129, 0.8),
+            0 0 36px rgba(16, 185, 129, 0.6);
+    }
+}
+
+/* User Menu */
+.user-menu-wrapper {
+    position: relative;
+}
+
+.user-avatar-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.user-avatar-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    min-width: 280px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    animation: slideDown 0.2s ease;
+    overflow: hidden;
+}
+
+.dropdown-header {
+    padding: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-email {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--glass-border);
+}
+
+.dropdown-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+    background: var(--color-bg-card-hover);
+    color: var(--color-text-primary);
+}
+
+.dropdown-item svg {
+    width: 18px;
+    height: 18px;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        gap: var(--spacing-md);
+    }
+
+    .logo-subtitle {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-icon-img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo-title {
+        font-size: var(--font-size-sm);
+    }
+
+    .nav-divider {
+        display: none;
+    }
+
+    .nav-icon-link {
+        padding: 6px;
+    }
+}
