@@ -46,7 +46,7 @@ class RateLimiter:
                     status_code=status.HTTP_429_TOO_MANY_REQUESTS,
                     detail={
                         "message": "too many requests",
-                         "retry_after_seconds": ttl
+                        "retry_after_seconds": ttl
                     }
                 )
         except HTTPException:
