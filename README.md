@@ -17,6 +17,68 @@
 
 ---
 
+# Requirements
+
+#### **Python** `3.12.2`
+
+#### **Redis Server**
+Redis is required for caching and session management. Install Redis based on your operating system:
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt update
+sudo apt install redis-server
+```
+
+**macOS:**
+```bash
+brew install redis
+```
+
+**Windows:**
+Download and install from [redis.io/download](https://redis.io/download/) or use WSL (Windows Subsystem for Linux).
+
+**Start Redis Service:**
+```bash
+# Linux
+sudo systemctl start redis
+sudo systemctl enable redis
+```
+```bash
+# macOS
+brew services start redis
+```
+
+# Or run manually
+```bash
+redis-server
+```
+
+**Verify Redis Installation:**
+```bash
+redis-cli ping
+```
+
+**Configure Redis (Optional):**
+For development, Redis works without a password. For production, set a password in `/etc/redis/redis.conf`:
+```bash
+requirepass your_secure_password
+```
+
+#### **PyTorch**
+Go to [pytorch.org](https://pytorch.org/) and choose the installation command for your OS.
+
+<img src="imgs/torch_site.png">
+
+**Note:** You will get a command to run in your terminal.
+
+**If you are on Linux, run this directly:**
+```bash
+pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+```
+
+---
+
 # ⚙️ Setup & Installation
 
 ### 1. Create Virtual Environment
@@ -50,21 +112,6 @@ Choose the command based on your Operating System:
 
 ---
 
-# Requirements
-
-#### **Python** `3.12.2`
-#### **PyTorch** : go to [pytorch](https://pytorch.org/) and choose what you want to install if you have Linux, Windows, or macOS.
-<img src="imgs/torch_site.png">
-
-**Note:** You will get a command to run in your terminal. 
-
-**If you are on Linux, run this directly:**
-```bash
-pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-```
-
----
-
 # Install Dependencies
 Once activated, install the required packages:
 ```bash
@@ -90,7 +137,7 @@ pip install -r backend/requirements.txt
 - **Data Processing:** `scikit-learn`, `category-encoders`
 - **Embedding:** `sentence-transformers`
 - **API:** `FastAPI`
-- **Frontend:** `React`, `Next.js`
+- **Frontend:** `React`, `Vite`
 - **Containerization:** `Docker`
 - **Databases:** `PostgreSQL`
 - **Vector Databases:** `PGVector`
