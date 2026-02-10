@@ -36,6 +36,8 @@ jobs:
       - name: Build
         working-directory: ./frontend
         run: npm run build
+        env:
+          NODE_ENV: production
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -43,7 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./frontend/dist
+          path: frontend/dist
 
   deploy:
     environment:
