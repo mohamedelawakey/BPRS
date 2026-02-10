@@ -12,6 +12,8 @@ KEY_PREFIX = os.getenv("KEY_PREFIX", "rate_limit")
 CACHE_TTL = int(os.getenv("EXPIRE", 3600))
 CACHE_PREFIX = os.getenv("CACHE_PREFIX", "search")
 CLEAR_ALL_COUNTER = int(os.getenv("CLEAR_ALL_COUNTER", 100))
+SEARCH_REQUEST_MIN_LENGTH = int(os.getenv("SEARCH_REQUEST_MIN_LENGTH", 1))
+SEARCH_REQUEST_MAX_LENGTH = int(os.getenv("SEARCH_REQUEST_MAX_LENGTH", 500))
 
 
 class Enumerations:
@@ -31,3 +33,7 @@ class Enumerations:
     cache_ttl = CACHE_TTL
     cache_prefix = CACHE_PREFIX
     clear_all_counter = CLEAR_ALL_COUNTER
+
+    # search request configurations (schema)
+    search_request_min_length = SEARCH_REQUEST_MIN_LENGTH
+    search_request_max_length = SEARCH_REQUEST_MAX_LENGTH
