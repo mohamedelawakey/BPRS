@@ -13,7 +13,7 @@ class SearchService:
     async def search(
         query: str,
         top_k: int = Enumerations.top_k,
-        apply_reranking: bool = True,
+        apply_rerank: bool = True,
         rerank_top_k: int = Enumerations.top_k_rerank
     ) -> List[Dict[str, Any]]:
         if not query or not query.strip():
@@ -38,7 +38,7 @@ class SearchService:
 
             final_results = ml_results
 
-            if apply_reranking and len(ml_results) > 0:
+            if apply_rerank and len(ml_results) > 0:
                 logger.info(f"Applying reranking to {len(ml_results)} results")
                 reranked = Reranker.reranker(ml_results, top_k=rerank_top_k)
 
@@ -60,7 +60,7 @@ class SearchService:
         return await SearchService.search(
             query=query,
             top_k=top_k,
-            apply_reranking=False
+            apply_rerank=False
         )
 
     @staticmethod
