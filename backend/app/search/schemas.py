@@ -14,7 +14,7 @@ class SearchRequest(BaseModel):
     top_k: int = Field(
         default=ml_enum.top_k,
         ge=Enumerations.top_k_greater_than_or_equal,
-        le=Enumerations.top_k_less_than_equal,
+        le=Enumerations.top_k_less_than_or_equal,
         description="Number of results to return"
     )
 
@@ -26,7 +26,7 @@ class SearchRequest(BaseModel):
     rerank_top_k: int = Field(
         default=ml_enum.top_k_rerank,
         ge=Enumerations.rerank_top_k_greater_than_or_equal,
-        le=Enumerations.rerank_top_k_less_than_equal,
+        le=Enumerations.rerank_top_k_less_than_or_equal,
         description="Number of results to rerank"
     )
 
