@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendation System - Documentation</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Design System - Matching Frontend */
+        :root {
+            /* Colors */
+            --color-bg-primary: #0a0a0f;
+            --color-bg-secondary: #12121a;
+            --color-bg-tertiary: #1a1a2e;
+            --color-bg-card: rgba(255, 255, 255, 0.03);
+            --color-bg-card-hover: rgba(255, 255, 255, 0.06);
+
+            --color-text-primary: #ffffff;
+            --color-text-secondary: rgba(255, 255, 255, 0.7);
+            --color-text-muted: rgba(255, 255, 255, 0.5);
+
+            --color-accent-primary: #667eea;
+            --color-accent-secondary: #764ba2;
+            --color-accent-coral: #ff6b6b;
+            --color-accent-teal: #4ecdc4;
+            --color-accent-gold: #ffd93d;
+
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            --gradient-aurora: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ff6b6b 100%);
+
+            /* Glass Effect */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+
+            /* Shadows */
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
+            --shadow-glow: 0 0 60px rgba(102, 126, 234, 0.3);
+
+            /* Border Radius */
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+
+            /* Transitions */
+            --transition-normal: 0.3s ease;
+
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Background Effects - Matching Frontend */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 107, 107, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: breathe 8s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24pشx;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 80px 0;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 24px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.4));
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-bottom: 32px;
+            transition: var(--transition-normal);
+            animation: fadeInUp 0.8s ease;
+            animation-fill-mode: both;
+        }
+
+        .glass-card:hover {
+            background: var(--color-bg-card-hover);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-4px);
+        }
+
+        h2 {
+            color: var(--color-accent-primary);
+            font-size: 2rem;
+            margin-bottom: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            color: var(--color-accent-teal);
+            font-size: 1.5rem;
+            margin: 32px 0 16px;
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+
+        code {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--color-accent-gold);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 4px solid var(--color-accent-primary);
+            position: relative;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--color-accent-teal);
+            border: none;
+        }
+
+        ul,
+        ol {
+            margin-left: 24px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+        }
+
+        strong {
+            color: var(--color-accent-gold);
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--color-accent-primary);
+            text-decoration: none;
+            transition: var(--transition-normal);
+            position: relative;
+        }
+
+        a:hover {
+            color: var(--color-accent-secondary);
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        /* Tech Stack Badges */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            color: var(--color-text-primary);
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition-normal);
+            animation: scaleIn 0.5s ease;
+            animation-fill-mode: both;
+        }
+
+        .badge:hover {
+            background: var(--color-bg-card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .badge::before {
+            content: '•';
+            color: var(--color-accent-primary);
+            font-size: 1.2em;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 4px solid var(--color-accent-primary);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Section Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+            margin: 60px 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Stagger animations for cards */
+        .glass-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .glass-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .glass-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .glass-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .glass-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        /* Stagger badges */
+        .badge:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .badge:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .badge:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .badge:nth-child(4) {
+            animation-delay: 0.25s;
+        }
+
+        .badge:nth-child(5) {
+            animation-delay: 0.3s;
+        }
+
+        .badge:nth-child(6) {
+            animation-delay: 0.35s;
+        }
+
+        .badge:nth-child(7) {
+            animation-delay: 0.4s;
+        }
+
+        .badge:nth-child(8) {
+            animation-delay: 0.45s;
+        }
+
+        /* Scrollbar - Matching Frontend */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg-primary);
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 100px;
+            border: 2px solid var(--color-bg-primary);
+            transition: var(--transition-normal);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.8);
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(102, 126, 234, 0.3);
+            color: var(--color-text-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+            }
+
+            .glass-card {
+                padding: 24px;
+            }
+
+            .header {
+                padding: 40px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo.png" alt="Logo" class="logo-img">
+            <h1>Book Recommendation System</h1>
+            <p class="subtitle">Intelligent, Context-Aware Programming Book Recommendations</p>
+        </div>
+
+        <div class="glass-card">
+            <div class="highlight-box">
+                <p>
+                    The <strong>Book Recommendation System</strong> is a comprehensive, end-to-end platform designed to
+                    help developers and learners navigate the vast world of programming literature. In an era where
+                    thousands of technical books are available, finding the right resource can be overwhelming. This
+                    system simplifies that journey by providing intelligent, context-aware recommendations tailored to
+                    user interests.
+                </p>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2>💡 The Problem It Solves</h2>
+            <p>Traditional search engines often rely on simple keyword matching, which can miss relevant results. This
+                project goes beyond that by understanding the semantic meaning behind book descriptions. Whether you are
+                looking for deep dives into "Backend Architecture" or beginner-friendly "Data Science" guides, the
+                system recognizes the core topics and suggests the most relevant titles.</p>
+        </div>
+
+        <div class="glass-card">
+            <h2>🔧 How It Works</h2>
+            <ol>
+                <li><strong>Smart Data Processing:</strong> We take raw data about programming books, <code>clean</code>
+                    it, and <code>analyze</code> it using advanced <code>data science</code> tools to ensure only the
+                    highest quality information is used.</li>
+                <li><strong>Machine Learning Intelligence:</strong> Using <code>PyTorch</code> and modern
+                    <code>embedding techniques</code>, the system "reads" the books and transforms their content into a
+                    mathematical format that allows it to <code>calculate similarities</code> between different titles.
+                </li>
+                <li><strong>Fast & Scalable Retrieval:</strong> To ensure you get your results instantly, we use a
+                    <code>Vector Database (PGVector)</code>, which is specifically designed to handle high-speed
+                    searches across large datasets.
+                </li>
+                <li><strong>Modern Web Experience:</strong> The entire engine is wrapped in a high-performance
+                    <code>FastAPI</code> backend and presented through a sleek, responsive <code>React.js</code> and
+                    <code>Vite.js</code> frontend.
+                </li>
+                <li><strong>Reliable Deployment:</strong> The project is fully containerized using <code>Docker</code>,
+                    ensuring smooth operation on any machine.</li>
+            </ol>
+        </div>
+
+        <div class="glass-card">
+            <h2>🎯 Why This Project?</h2>
+            <p>This project isn't just about a model; it's about a <strong>complete ecosystem</strong>. It demonstrates
+                the full lifecycle of a machine learning product—from raw data to a functional, containerized web
+                application.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="glass-card">
+            <h2>📋 Requirements</h2>
+
+            <h3>Python</h3>
+            <p><code>Python 3.12.2</code></p>
+
+            <h3>Redis Server</h3>
+            <p>Redis is required for caching and session management.</p>
+
+            <p><strong>Linux (Ubuntu/Debian):</strong></p>
+            <pre><code>sudo apt update
+sudo apt install redis-server</code></pre>
+
+            <p><strong>macOS:</strong></p>
+            <pre><code>brew install redis</code></pre>
+
+            <p><strong>Windows:</strong></p>
+            <ul>
+                <li><strong>WSL2 (Recommended):</strong> <a href="https://learn.microsoft.com/en-us/windows/wsl/install"
+                        target="_blank">Install WSL2</a> and follow Linux instructions</li>
+                <li><strong>Docker (Easiest):</strong>
+                    <pre><code>docker run -d --name redis-stack -p 6379:6379 redis/redis-stack:latest</code></pre>
+                </li>
+            </ul>
+
+            <p><strong>Start Redis:</strong></p>
+            <pre><code># Linux
+sudo systemctl start redis
+
+# macOS
+brew services start redis
+
+# Manual
+redis-server</code></pre>
+
+            <p><strong>Verify Installation:</strong></p>
+            <pre><code>redis-cli ping</code></pre>
+
+            <h3>PyTorch</h3>
+            <p>Visit <a href="https://pytorch.org/" target="_blank">pytorch.org</a> for installation instructions.</p>
+            <img src="imgs/torch_site.png" alt="PyTorch Installation Site"
+                style="border-radius: 10px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); max-width: 100%;">
+            <p><strong>Linux Quick Install:</strong></p>
+            <pre><code>pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu</code></pre>
+        </div>
+
+        <div class="glass-card">
+            <h2>⚙️ Setup & Installation</h2>
+
+            <h3>1. Create Virtual Environment</h3>
+            <pre><code>python -m venv venv</code></pre>
+
+            <h3>2. Activate Environment</h3>
+            <p><strong>Linux / macOS:</strong></p>
+            <pre><code>source venv/bin/activate</code></pre>
+
+            <p><strong>Windows CMD:</strong></p>
+            <pre><code>venv\Scripts\activate.bat</code></pre>
+
+            <p><strong>Windows PowerShell:</strong></p>
+            <pre><code>.\venv\Scripts\Activate.ps1</code></pre>
+
+            <h3>3. Install Dependencies</h3>
+            <pre><code>pip install -r ml/requirements.txt
+pip install -r backend/requirements.txt</code></pre>
+        </div>
+
+        <div class="glass-card">
+            <h2>📂 Project Structure</h2>
+            <p>A detailed overview of the project layout: 👉 <a href="structure.html">View Interactive Tree</a></p>
+        </div>
+
+        <div class="glass-card">
+            <h2>🛠 Tech Stack</h2>
+            <div class="tech-stack">
+                <span class="badge">Python 3.12</span>
+                <span class="badge">PyTorch</span>
+                <span class="badge">scikit-learn</span>
+                <span class="badge">Pandas</span>
+                <span class="badge">NumPy</span>
+                <span class="badge">FastAPI</span>
+                <span class="badge">React</span>
+                <span class="badge">Vite</span>
+                <span class="badge">Docker</span>
+                <span class="badge">PostgreSQL</span>
+                <span class="badge">PGVector</span>
+                <span class="badge">Redis</span>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2>📄 License</h2>
+            <p>Source-available for non-commercial use under <a href="../LICENSE">Business Source License 1.1</a>.</p>
+            <p>Becomes fully open-source under Apache License 2.0 on <strong>2030-01-01</strong>.</p>
+        </div>
+    </div>
+</body>
+
+</html>
