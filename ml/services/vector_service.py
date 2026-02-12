@@ -1,5 +1,5 @@
 from backend.app.core.logging import get_logger
-from backend.app.db.pg_vector import PGVectorDBConnection
+from backend.app.db.postgres import PostgresDBConnection
 from typing import List, Union
 from ml.Enum.Enumerations import Enumerations
 import numpy as np
@@ -22,7 +22,7 @@ class VectorService:
         vector_str = '[' + ','.join(map(str, query_embedding)) + ']'
 
         try:
-            with PGVectorDBConnection.get_pgvector_connection() as conn:
+            with PostgresDBConnection.get_db_connection() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(Enumerations.ef_search)
                     cursor.execute(
