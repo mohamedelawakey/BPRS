@@ -60,4 +60,7 @@ class RateLimiter:
         except Exception as e:
             logger.error(f"Rate limiter error: {e}", exc_info=True)
 
-            return
+            raise HTTPException(
+                status_code=503,
+                detail="Rate limiter unavailable"
+            )
