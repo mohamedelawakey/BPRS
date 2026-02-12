@@ -64,5 +64,9 @@ class PostgresDBConnection:
         conn = PostgresDBConnection.get_pg_connection()
         try:
             yield conn
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
         finally:
             PostgresDBConnection.release_connection(conn)
