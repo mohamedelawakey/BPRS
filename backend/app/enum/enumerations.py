@@ -8,7 +8,8 @@ CACHE_PREFIX = os.getenv("CACHE_PREFIX", "search")
 
 RETRIES = int(float(os.getenv('RETRIES', 3)))
 RETRY_DELAY = int(float(os.getenv('RETRY_DELAY', 3)))
-MAX_CONNECTIONS = int(float(os.getenv('MAX_CONNECTIONS', 10)))
+MAX_CONNECTIONS = int(float(os.getenv('MAX_CONNECTIONS', 20)))
+MIN_CONNECTIONS = int(float(os.getenv('MIN_CONNECTIONS', 1)))
 LIMIT = int(float(os.getenv("LIMIT", 30)))
 WINDOW_SECOND = int(float(os.getenv("WINDOW_SECOND", 60)))
 CACHE_TTL = int(float(os.getenv("EXPIRE", 3600)))
@@ -27,6 +28,7 @@ class Enumerations:
     retry_delay = RETRY_DELAY
 
     # max connections
+    min_connections = MIN_CONNECTIONS
     max_connections = MAX_CONNECTIONS
 
     # rate limit
