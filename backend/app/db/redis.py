@@ -16,13 +16,16 @@ logger = get_logger(__name__, system_type="backend")
 class AsyncRedisDBConnection:
     _instance: Redis | None = None
     _pool: ConnectionPool | None = None
-    _lock = asyncio.Lock()
+    _lock: asyncio.Lock | None = None
 
     @staticmethod
     async def get_connection(
         retries: int = Enumerations.retries,
         retry_delay: float = Enumerations.retry_delay
     ) -> Redis:
+        if AsyncRedisDBConnection._lock is None:
+            AsyncRedisDBConnection._lock = asyncio.Lock()
+
         if AsyncRedisDBConnection._instance:
             return AsyncRedisDBConnection._instance
 
