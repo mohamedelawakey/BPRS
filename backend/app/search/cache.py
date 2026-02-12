@@ -13,25 +13,40 @@ class CacheManager:
     CACHE_PREFIX = Enumerations.cache_prefix
 
     @staticmethod
-    def _generate_key(query: str, top_k: int) -> str:
+    def _generate_key(
+        query: str,
+        top_k: int,
+        apply_rerank: bool = True,
+        rerank_top_k: int = Enumerations.top_k_rerank
+    ) -> str:
         normalized_query = query.lower().strip()
-        raw_key = f"{normalized_query}:{top_k}"
+        raw_key = f"{normalized_query}:{top_k}:{apply_rerank}:{rerank_top_k}"
         hash_key = hashlib.md5(raw_key.encode()).hexdigest()
         return f"{CacheManager.CACHE_PREFIX}:{hash_key}"
 
     @staticmethod
-    async def get(query: str, top_k: int) -> Optional[List[Dict[str, Any]]]:
+    async def get(
+        query: str,
+        top_k: int,
+        apply_rerank: bool = True,
+        rerank_top_k: int = Enumerations.top_k_rerank
+    ) -> Optional[List[Dict[str, Any]]]:
         try:
             redis_client = await AsyncRedisDBConnection.get_connection()
-            cache_key = CacheManager._generate_key(query, top_k)
+            cache_key = CacheManager._generate_key(
+                query,
+                top_k,
+                apply_rerank,
+                rerank_top_k
+            )
 
             cached_data = await redis_client.get(cache_key)
 
             if cached_data:
-                logger.info(f"Cache hit for query: '{query}' (top_k={top_k})")
+                logger.info(f"Cache hit for query: '{query}' (top_k={top_k}, rerank={apply_rerank})")
                 return json.loads(cached_data)
 
-            logger.info(f"Cache miss for query: '{query}' (top_k={top_k})")
+            logger.info(f"Cache miss for query: '{query}' (top_k={top_k}, rerank={apply_rerank})")
             return None
 
         except Exception as e:
@@ -42,11 +57,18 @@ class CacheManager:
     async def set(
         query: str,
         top_k: int,
-        result: Optional[List[Dict[str, Any]]]
+        result: Optional[List[Dict[str, Any]]],
+        apply_rerank: bool = True,
+        rerank_top_k: int = Enumerations.top_k_rerank
     ) -> bool:
         try:
             redis_client = await AsyncRedisDBConnection.get_connection()
-            cache_key = CacheManager._generate_key(query, top_k)
+            cache_key = CacheManager._generate_key(
+                query,
+                top_k,
+                apply_rerank,
+                rerank_top_k
+            )
 
             await redis_client.setex(
                 cache_key,
@@ -54,7 +76,7 @@ class CacheManager:
                 json.dumps(result)
             )
 
-            logger.info(f"Cached results for query: '{query}' (top_k={top_k})")
+            logger.info(f"Cached results for query: '{query}' (top_k={top_k}, rerank={apply_rerank})")
             return True
 
         except Exception as e:
@@ -62,13 +84,23 @@ class CacheManager:
             return False
 
     @staticmethod
-    async def invalidate(query: str, top_k: int) -> bool:
+    async def invalidate(
+        query: str,
+        top_k: int,
+        apply_rerank: bool = True,
+        rerank_top_k: int = Enumerations.top_k_rerank
+    ) -> bool:
         try:
             redis_client = await AsyncRedisDBConnection.get_connection()
-            cache_key = CacheManager._generate_key(query, top_k)
+            cache_key = CacheManager._generate_key(
+                query,
+                top_k,
+                apply_rerank,
+                rerank_top_k
+            )
 
             await redis_client.delete(cache_key)
-            logger.info(f"Invalidated cache for query: '{query}' (top_k={top_k})")
+            logger.info(f"Invalidated cache for query: '{query}'")
             return True
 
         except Exception as e:
