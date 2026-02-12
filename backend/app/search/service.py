@@ -51,7 +51,10 @@ class SearchService:
 
             if apply_rerank and len(ml_results) > 0:
                 logger.info(f"Applying reranking to {len(ml_results)} results")
-                reranked = Reranker.reranker(ml_results, top_k=rerank_top_k)
+                reranked = await loop.run_in_executor(
+                    None,
+                    lambda: Reranker.reranker(ml_results, top_k=rerank_top_k)
+                )
 
                 if reranked:
                     final_results = reranked
@@ -70,7 +73,7 @@ class SearchService:
 
         except Exception as e:
             logger.error(f"Search service error for query '{query}': {e}", exc_info=True)
-            return []
+            raise
 
     @staticmethod
     async def search_simple(query: str, top_k: int = Enumerations.top_k) -> List[Dict[str, Any]]:
