@@ -23,7 +23,12 @@ class RateLimiter:
         if user_id:
             return f"{self.key_prefix}:user:{user_id}"
 
-        client_ip = request.client.host if request.client else "unknown"
+        forwarded = request.headers.get("X-Forwarded-For")
+        if forwarded:
+            client_ip = forwarded.split(",")[0].strip()
+        else:
+            client_ip = request.client.host if request.client else "unknown"
+
         return f"{self.key_prefix}:ip:{client_ip}"
 
     async def __call__(self, request: Request):
