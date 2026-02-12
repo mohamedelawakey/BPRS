@@ -9,6 +9,7 @@ from backend.app.core.config import (
     DB_HOST,
     DB_PORT
 )
+from backend.app.enum.enumerations import Enumerations
 
 logger = get_logger(__name__, system_type='backend')
 
@@ -27,8 +28,8 @@ class PostgresDBConnection:
                     host=DB_HOST,
                     port=DB_PORT,
                     cursor_factory=RealDictCursor,
-                    minconn=1,
-                    maxconn=20,
+                    minconn=Enumerations.min_connections,
+                    maxconn=Enumerations.max_connections,
                 )
                 logger.info("PostgreSQL connection pool initialized")
             except Exception as e:
