@@ -16,7 +16,7 @@ class MetadataService:
             return []
 
         try:
-            with PostgresDBConnection.get_pg_connection() as conn:
+            with PostgresDBConnection.get_db_connection() as conn:
                 with conn.cursor() as cursor:
                     query = Enumerations.metadata_service_query
 
