@@ -1,21 +1,24 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 from backend.app.auth.routes import router as auth_router
 from backend.app.books.routes import router as books_router
 from backend.app.users.routes import router as users_router
 from backend.app.search.routes import router as search_router
 from backend.app.db.postgres import PostgresDBConnection
 
-app = FastAPI(title='Programming Books Recommendation System')
 
-
-@app.on_event("startup")
-async def startup_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     PostgresDBConnection.init_pool()
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
+    yield
     PostgresDBConnection.close_pool()
+
+app = FastAPI(
+    title='Programming Books Recommendation System',
+    lifespan=lifespan
+)
+
+# @app.on_event("startup")
 
 app.include_router(auth_router, prefix='/auth', tags=['auth'])
 app.include_router(books_router, prefix='/books', tags=['books'])
