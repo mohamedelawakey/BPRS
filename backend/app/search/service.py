@@ -1,3 +1,4 @@
+import asyncio
 from backend.app.core.logging import get_logger
 from .cache import CacheManager
 from ml.inference.search import Search
@@ -21,14 +22,24 @@ class SearchService:
             return []
 
         try:
-            cached_results = await CacheManager.get(query, top_k)
+            cached_results = await CacheManager.get(
+                query,
+                top_k,
+                apply_rerank,
+                rerank_top_k
+            )
 
             if cached_results is not None:
                 logger.info(f"Returning cached results for: '{query}'")
                 return cached_results
 
             logger.info(f"Cache miss - calling ML inference for: '{query}'")
-            ml_results = Search.search(user_text=query, top_k=top_k)
+
+            loop = asyncio.get_running_loop()
+            ml_results = await loop.run_in_executor(
+                None,
+                lambda: Search.search(user_text=query, top_k=top_k)
+            )
 
             if not ml_results:
                 logger.warning(f"No results from ML inference for: '{query}'")
@@ -48,7 +59,13 @@ class SearchService:
                 else:
                     logger.warning("Reranking failed - using original ML results")
 
-            await CacheManager.set(query, top_k, final_results)
+            await CacheManager.set(
+                query,
+                top_k,
+                final_results,
+                apply_rerank,
+                rerank_top_k
+            )
             return final_results
 
         except Exception as e:
@@ -56,7 +73,7 @@ class SearchService:
             return []
 
     @staticmethod
-    async def search_simple(query: str, top_k: int = 20) -> List[Dict[str, Any]]:
+    async def search_simple(query: str, top_k: int = Enumerations.top_k) -> List[Dict[str, Any]]:
         return await SearchService.search(
             query=query,
             top_k=top_k,
