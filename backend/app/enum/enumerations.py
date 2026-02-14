@@ -20,7 +20,10 @@ TOP_K_GREAT_THAN_OR_EQUAL = int(os.getenv("TOP_K_GREAT_THAN_OR_EQUAL", 1))
 RERANK_TOP_K_GREAT_THAN_OR_EQUAL = int(os.getenv("RERANK_TOP_K_GREAT_THAN_OR_EQUAL", 1))
 TOP_K_LESS_THAN_OR_EQUAL = int(os.getenv("TOP_K_LESS_THAN_EQUAL", 220))
 RERANK_TOP_K_LESS_THAN_OR_EQUAL = int(os.getenv("TOP_K_LESS_THAN_EQUAL", 120))
-
+SECRET_KEY = os.getenv("SECRET_KEY", "")
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
+REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", 7))
 
 class Enumerations:
     # Redis
@@ -48,3 +51,9 @@ class Enumerations:
     rerank_top_k_greater_than_or_equal = RERANK_TOP_K_GREAT_THAN_OR_EQUAL
     top_k_less_than_or_equal = TOP_K_LESS_THAN_OR_EQUAL
     rerank_top_k_less_than_or_equal = RERANK_TOP_K_LESS_THAN_OR_EQUAL
+
+    # security
+    secret_key = SECRET_KEY
+    algorithm = ALGORITHM
+    access_token_expire_minutes = ACCESS_TOKEN_EXPIRE_MINUTES
+    refresh_token_expire_days = REFRESH_TOKEN_EXPIRE_DAYS
