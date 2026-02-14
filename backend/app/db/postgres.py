@@ -1,7 +1,6 @@
+import asyncpg
 from backend.app.core.logging import get_logger
-from psycopg2 import pool
-from psycopg2.extras import RealDictCursor
-from contextlib import contextmanager
+from contextlib import asynccontextmanager
 from backend.app.core.config import (
     DB_NAME,
     DB_USER,
@@ -18,55 +17,35 @@ class PostgresDBConnection:
     _pool = None
 
     @classmethod
-    def init_pool(cls):
+    async def init_pool(cls):
         if cls._pool is None:
             try:
-                cls._pool = pool.SimpleConnectionPool(
-                    dbname=DB_NAME,
+                cls._pool = await asyncpg.create_pool(
                     user=DB_USER,
                     password=DB_PASSWORD,
+                    database=DB_NAME,
                     host=DB_HOST,
                     port=DB_PORT,
-                    cursor_factory=RealDictCursor,
-                    minconn=Enumerations.min_connections,
-                    maxconn=Enumerations.max_connections,
+                    min_size=Enumerations.min_connections,
+                    max_size=Enumerations.max_connections,
                 )
-                logger.info("PostgreSQL connection pool initialized")
+                logger.info("Async PostgreSQL connection pool initialized")
             except Exception as e:
-                logger.error(f"Error initializing PostgreSQL connection pool: {e}")
+                logger.error(f"Error initializing Async PostgreSQL connection pool: {e}")
                 raise
 
     @classmethod
-    def close_pool(cls):
+    async def close_pool(cls):
         if cls._pool:
-            cls._pool.closeall()
-            logger.info("PostgreSQL connection pool closed")
+            await cls._pool.close()
+            logger.info("Async PostgreSQL connection pool closed")
 
-    @staticmethod
-    def get_pg_connection():
-        if PostgresDBConnection._pool is None:
-            PostgresDBConnection.init_pool()
+    @classmethod
+    @asynccontextmanager
+    async def get_db_connection(cls):
+        if cls._pool is None:
+            await cls.init_pool()
 
-        try:
-            return PostgresDBConnection._pool.getconn()
-        except Exception as e:
-            logger.error(f"Error getting connection from pool: {e}")
-            raise
-
-    @staticmethod
-    def release_connection(conn):
-        if PostgresDBConnection._pool and conn:
-            PostgresDBConnection._pool.putconn(conn)
-
-    @staticmethod
-    @contextmanager
-    def get_db_connection():
-        conn = PostgresDBConnection.get_pg_connection()
-        try:
-            yield conn
-            conn.commit()
-        except Exception:
-            conn.rollback()
-            raise
-        finally:
-            PostgresDBConnection.release_connection(conn)
+        async with cls._pool.acquire() as conn:
+            async with conn.transaction():
+                yield conn
