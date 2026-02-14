@@ -5,3 +5,4 @@ psycopg2-binary==2.9.11
 pgvector==0.4.2
 python-dotenv==1.2.1
 JSON-log-formatter==1.1.1
+asyncpg==0.31.0
