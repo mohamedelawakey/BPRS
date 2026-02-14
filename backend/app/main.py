@@ -18,8 +18,6 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# @app.on_event("startup")
-
 app.include_router(auth_router, prefix='/auth', tags=['auth'])
 app.include_router(books_router, prefix='/books', tags=['books'])
 app.include_router(users_router, prefix='/users', tags=['users'])
