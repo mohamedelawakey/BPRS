@@ -22,3 +22,8 @@ app.include_router(auth_router, prefix='/auth', tags=['auth'])
 app.include_router(books_router, prefix='/books', tags=['books'])
 app.include_router(users_router, prefix='/users', tags=['users'])
 app.include_router(search_router)
+
+
+@app.get("/health", tags=["health"])
+async def health_check():
+    return {"status": "ok"}
