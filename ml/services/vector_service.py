@@ -1,5 +1,6 @@
 from backend.app.core.logging import get_logger
-from backend.app.db.postgres import PostgresDBConnection
+from ml.services.postgres_pool import MLPostgresConnectionPool
+import psycopg2
 from typing import List, Union
 from ml.Enum.Enumerations import Enumerations
 import numpy as np
@@ -22,19 +23,20 @@ class VectorService:
         vector_str = '[' + ','.join(map(str, query_embedding)) + ']'
 
         try:
-            with PostgresDBConnection.get_db_connection() as conn:
+            with MLPostgresConnectionPool.get_connection() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(Enumerations.ef_search)
                     cursor.execute(
                         Enumerations.vector_service_query,
                         (vector_str, vector_str, top_k)
                     )
+                    
                     results = cursor.fetchall()
 
             logger.info(f'VectorService: found {len(results)} similar books')
 
             return [
-                {'book_id': r['book_id'], 'similarity': float(r['similarity'])}
+                {'book_id': r[0], 'similarity': float(r[1])}
                 for r in results
             ]
         except Exception as e:
