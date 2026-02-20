@@ -24,6 +24,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", "")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", 7))
+HARD_CODED_HOST = os.getenv("HARD_CODED_HOST", "127.0.0.1")
+
 
 class Enumerations:
     # Redis
@@ -57,3 +59,9 @@ class Enumerations:
     algorithm = ALGORITHM
     access_token_expire_minutes = ACCESS_TOKEN_EXPIRE_MINUTES
     refresh_token_expire_days = REFRESH_TOKEN_EXPIRE_DAYS
+    hard_coded_host = HARD_CODED_HOST
+
+    # roles
+    class Role:
+        admin = "admin"
+        user = "user"
