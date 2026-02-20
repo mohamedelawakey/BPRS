@@ -34,7 +34,7 @@ class Enumerations():
         counts_of_review_scaled, tech_score_scaled, publishyear_scaled,
         average_low_rating, average_high_rating
         FROM books
-        WHERE book_id = ANY(%s)
+        WHERE book_id = ANY(%s::int[])
     """
 
     # books
