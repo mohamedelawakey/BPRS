@@ -82,7 +82,7 @@ async def create_refresh_token(user_id: str):
         "exp": expire
     }
 
-    redis = AsyncRedisDBConnection.get_connection()
+    redis = await AsyncRedisDBConnection.get_connection()
     await redis.set(f"user_refresh:{user_id}:{jti}", user_id, ex=REFRESH_TOKEN_EXPIRE_DAYS * 86400)
 
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
@@ -90,7 +90,7 @@ async def create_refresh_token(user_id: str):
 
 # BLACKLIST (REDIS)
 async def blacklist_token(jti: str, exp_timestamp: int):
-    redis = AsyncRedisDBConnection.get_connection()
+    redis = await AsyncRedisDBConnection.get_connection()
     ttl = exp_timestamp - int(datetime.now(timezone.utc).timestamp())
 
     if ttl > 0:
@@ -98,7 +98,7 @@ async def blacklist_token(jti: str, exp_timestamp: int):
 
 
 async def is_jti_blacklisted(jti: str) -> bool:
-    redis = AsyncRedisDBConnection.get_connection()
+    redis = await AsyncRedisDBConnection.get_connection()
     exists = await redis.exists(f"blacklist:{jti}")
 
     return exists == 1
@@ -108,7 +108,7 @@ async def block_user(
     user_id: str,
     minutes: int = Enumerations.block_user_minutes
 ):
-    redis = AsyncRedisDBConnection.get_connection()
+    redis = await AsyncRedisDBConnection.get_connection()
     await redis.set(f"user_blocked:{user_id}", "1", ex=minutes * 60)
 
 
@@ -183,7 +183,7 @@ async def get_current_user(
 
     user = await UserService.get_by_id(user_id)
 
-    redis = AsyncRedisDBConnection.get_connection()
+    redis = await AsyncRedisDBConnection.get_connection()
     is_blocked = await redis.exists(f"user_blocked:{user_id}")
 
     if is_blocked:
@@ -228,7 +228,7 @@ async def logout(token: str = Depends(oauth2_scheme)):
     if jti:
         await blacklist_token(jti, expiration)
 
-    redis = AsyncRedisDBConnection.get_connection()
+    redis = await AsyncRedisDBConnection.get_connection()
 
     async for key in redis.scan_iter(f"user_refresh:{user_id}:*"):
         await redis.delete(key)
