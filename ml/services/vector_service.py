@@ -1,6 +1,5 @@
 from backend.app.core.logging import get_logger
 from ml.services.postgres_pool import MLPostgresConnectionPool
-import psycopg2
 from typing import List, Union
 from ml.Enum.Enumerations import Enumerations
 import numpy as np
@@ -30,7 +29,7 @@ class VectorService:
                         Enumerations.vector_service_query,
                         (vector_str, vector_str, top_k)
                     )
-                    
+
                     results = cursor.fetchall()
 
             logger.info(f'VectorService: found {len(results)} similar books')
