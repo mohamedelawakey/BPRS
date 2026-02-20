@@ -1,7 +1,9 @@
 from typing import Any, Dict, List
 from ml.Enum.Enumerations import Enumerations
 from backend.app.core.logging import get_logger
-from backend.app.db.postgres import PostgresDBConnection
+from ml.services.postgres_pool import MLPostgresConnectionPool
+import psycopg2
+import psycopg2.extras
 
 logger = get_logger(__name__, system_type='ml')
 
@@ -16,8 +18,8 @@ class MetadataService:
             return []
 
         try:
-            with PostgresDBConnection.get_db_connection() as conn:
-                with conn.cursor() as cursor:
+            with MLPostgresConnectionPool.get_connection() as conn:
+                with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
                     query = Enumerations.metadata_service_query
 
                     cursor.execute(query, (book_ids, ))
