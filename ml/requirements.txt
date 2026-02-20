@@ -12,3 +12,5 @@ psycopg2-binary==2.9.11
 pgvector==0.4.2
 python-dotenv==1.2.1
 JSON-log-formatter==1.1.1
+pytest==9.0.2 
+pytest-mock==3.15.1
