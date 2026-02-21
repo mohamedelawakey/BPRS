@@ -209,3 +209,25 @@ export const getUserFavorites = async (userId) => {
     const user = await getUserById(userId);
     return user ? user.favorites : [];
 };
+
+// ─── Persistent Interests (keyed by email) ───────────────────────────────────
+// Interests are stored separately from the session so they survive logout/login.
+
+const interestsKey = (email) => `bprs_interests_${email}`;
+
+export const saveUserInterests = (email, interests) => {
+    try {
+        localStorage.setItem(interestsKey(email), JSON.stringify(interests));
+    } catch (e) {
+        console.error('Error saving interests:', e);
+    }
+};
+
+export const loadUserInterests = (email) => {
+    try {
+        const raw = localStorage.getItem(interestsKey(email));
+        return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+        return [];
+    }
+};
