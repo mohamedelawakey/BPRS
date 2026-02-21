@@ -1,6 +1,6 @@
 .results-section {
     padding: var(--spacing-2xl) 0 var(--spacing-3xl);
-    min-height: 50vh;
+    /* Removed min-height so the section collapses if there are fewer books */
 }
 
 .results-header {
@@ -27,14 +27,15 @@
 
 .books-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: var(--spacing-lg);
+    /* Increased minimum width from 240px to 280px to make items wider and fit exactly 4 on standard HD monitors */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+    /* Increased gap slightly for better breathing room with wider cards */
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .books-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: var(--spacing-lg);
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
 }
 

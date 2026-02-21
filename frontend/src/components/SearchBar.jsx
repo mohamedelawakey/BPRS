@@ -31,18 +31,22 @@ const SearchBar = forwardRef(({ onSearch, isLoading, onClear }, ref) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // Update suggestions when query changes
+    // Update suggestions when query changes with debounce
     useEffect(() => {
-        if (query.trim().length >= 2) {
-            const results = fuse.current.search(query);
-            const suggestionList = results.slice(0, 8).map(result => result.item);
-            setSuggestions(suggestionList);
-            setShowSuggestions(suggestionList.length > 0);
-        } else {
-            setSuggestions([]);
-            setShowSuggestions(false);
-        }
-        setSelectedIndex(-1);
+        const timeoutId = setTimeout(() => {
+            if (query.trim().length >= 2) {
+                const results = fuse.current.search(query);
+                const suggestionList = results.slice(0, 8).map(result => result.item);
+                setSuggestions(suggestionList);
+                setShowSuggestions(suggestionList.length > 0);
+            } else {
+                setSuggestions([]);
+                setShowSuggestions(false);
+            }
+            setSelectedIndex(-1);
+        }, 150); // 150ms debounce
+
+        return () => clearTimeout(timeoutId);
     }, [query]);
 
     const handleSubmit = (e) => {

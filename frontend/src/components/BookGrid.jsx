@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import BookCard from './BookCard';
 import './BookGrid.css';
 
-function BookGrid({ books, searchQuery }) {
+function BookGrid({ books, searchQuery, totalResults }) {
     return (
         <section className="results-section">
             <div className="container">
@@ -12,7 +13,7 @@ function BookGrid({ books, searchQuery }) {
                                 Results for "<span className="text-gradient">{searchQuery}</span>"
                             </h2>
                             <p className="results-count">
-                                Found <strong>{books.length}</strong> books matching your search
+                                Found <strong>{totalResults !== undefined ? totalResults : books.length}</strong> books matching your search
                             </p>
                         </>
                     ) : (
@@ -32,4 +33,4 @@ function BookGrid({ books, searchQuery }) {
     );
 }
 
-export default BookGrid;
+export default memo(BookGrid);
