@@ -16,11 +16,6 @@ function LogoViewerModal({ isOpen, onClose }) {
                     <div className="logo-glow"></div>
                     <img src="/logo.png" alt="BPRS Logo In Detail" className="large-logo" />
                 </div>
-
-                <div className="logo-caption">
-                    <h3>BPRS</h3>
-                    <p>Programming Books Recommendation System</p>
-                </div>
             </div>
         </div>
     );

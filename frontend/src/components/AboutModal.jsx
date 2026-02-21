@@ -78,9 +78,11 @@ function AboutModal({ isOpen, onClose }) {
                     </section>
 
                     <section className="about-section about-author">
-                        <h3>Software Engineer</h3>
+                        <h3>AI &amp; Software Engineer</h3>
                         <div className="author-card">
-                            <div className="author-avatar">M</div>
+                            <div className="author-avatar-container">
+                                <img src="public/favicon.png" alt="Mohamed Mostafa Alawakey Logo" className="author-avatar-img" />
+                            </div>
                             <div className="author-info">
                                 <strong>Mohamed Mostafa Alawakey</strong>
                                 <p>AI & ML Engineer</p>

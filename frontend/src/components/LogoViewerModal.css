@@ -20,7 +20,6 @@
     align-items: center;
     justify-content: center;
     padding: var(--spacing-3xl);
-    animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .logo-modal-close {
@@ -51,6 +50,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: var(--spacing-xl);
+    animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .large-logo {
@@ -146,7 +146,7 @@
 
 @keyframes slideUp {
     from {
-        transform: translateY(20px);
+        transform: translateY(100px);
         opacity: 0;
     }
 
