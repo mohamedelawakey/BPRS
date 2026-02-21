@@ -32,15 +32,18 @@
 
 .logo-image {
     height: 50px;
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 0 8px rgba(102, 126, 234, 0.4));
-    transition: transform 0.3s ease;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #635ccf;
+    filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.6));
+    transition: all 0.3s ease;
 }
 
 .logo:hover .logo-image {
     transform: scale(1.05);
-    filter: drop-shadow(0 0 12px rgba(102, 126, 234, 0.6));
+    filter: drop-shadow(0 0 15px rgba(102, 126, 234, 0.8));
+    border-color: #FFF;
 }
 
 .nav-links {
