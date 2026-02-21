@@ -3,7 +3,9 @@ import './BookCard.css';
 function BookCard({ book, index }) {
 
     const handleViewBook = () => {
-        const query = encodeURIComponent(`${book.title} ${book.author} book`);
+        const title = book.name || book.title || 'Unknown Book';
+        const author = book.authors || book.author || '';
+        const query = encodeURIComponent(`${title} ${author} book`);
         window.open(`https://www.google.com/search?q=${query}`, '_blank');
     };
 
@@ -65,24 +67,23 @@ function BookCard({ book, index }) {
                         <span className="book-icon">📚</span>
                     </div>
                 </div>
-                <div className="book-badge">{book.category || 'Programming'}</div>
             </div>
 
             <div className="book-info">
-                <h3 className="book-title">{book.title}</h3>
-                <p className="book-author">by {book.author}</p>
+                <h3 className="book-title">{book.name || book.title || 'Unknown Title'}</h3>
+                <p className="book-author">by {book.authors || book.author || 'Unknown Author'}</p>
 
                 <div className="book-rating">
                     <div className="stars">
-                        {renderStars(book.rating)}
+                        {renderStars(book.average_rating || book.rating || 0)}
                     </div>
-                    <span className="rating-value">{book.rating?.toFixed(1)}</span>
-                    <span className="rating-count">({book.ratings_count?.toLocaleString() || 0})</span>
+                    <span className="rating-value">{(book.average_rating || book.rating || 0).toFixed(1)}</span>
+                    <span className="rating-count">({(book.counts_of_review || book.ratings_count || 0).toLocaleString()})</span>
                 </div>
 
-                {book.description && (
-                    <p className="book-description">{book.description}</p>
-                )}
+                <p className="book-description">
+                    {book.description || 'No description available.'}
+                </p>
 
                 <div className="book-meta">
                     {book.pages && (
@@ -94,7 +95,7 @@ function BookCard({ book, index }) {
                             {book.pages} pages
                         </span>
                     )}
-                    {book.year && (
+                    {(book.publishyear || book.year) && (
                         <span className="meta-item">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -102,7 +103,7 @@ function BookCard({ book, index }) {
                                 <line x1="8" y1="2" x2="8" y2="6" />
                                 <line x1="3" y1="10" x2="21" y2="10" />
                             </svg>
-                            {book.year}
+                            {book.publishyear || book.year}
                         </span>
                     )}
                 </div>
