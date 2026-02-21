@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import './TechTicker.css';
 
 const techStack = [
@@ -35,4 +36,4 @@ function TechTicker() {
     );
 }
 
-export default TechTicker;
+export default memo(TechTicker);
