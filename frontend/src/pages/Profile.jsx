@@ -11,12 +11,10 @@ import './Profile.css';
 function Profile() {
     const navigate = useNavigate();
     const { currentUser, updateCurrentUser, logout } = useAuth();
-    const [activeTab, setActiveTab] = useState('account'); // 'account', 'favorites', 'interests'
+    const [activeTab, setActiveTab] = useState('account');
     const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
-    const [avatarPreview, setAvatarPreview] = useState(currentUser?.avatar || null);
-
     const [formData, setFormData] = useState({
         name: currentUser?.name || '',
         email: currentUser?.email || '',
@@ -38,16 +36,6 @@ function Profile() {
         }
     };
 
-    const handleAvatarUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setAvatarPreview(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
 
     const handleSaveProfile = async () => {
         setIsSaving(true);
@@ -62,10 +50,6 @@ function Profile() {
 
         if (formData.email !== currentUser.email) {
             updates.email = formData.email;
-        }
-
-        if (avatarPreview !== currentUser.avatar) {
-            updates.avatar = avatarPreview;
         }
 
         // Validate if changing password
@@ -216,21 +200,9 @@ function Profile() {
                             </div>
 
                             <div className="profile-form">
-                                <div className="form-section">
-                                    <h3>Profile Picture</h3>
+                                <div className="form-section avatar-section">
                                     <div className="avatar-upload">
-                                        <Avatar user={{ ...currentUser, avatar: avatarPreview }} size="large" />
-                                        {isEditing && (
-                                            <label className="upload-btn">
-                                                <input
-                                                    type="file"
-                                                    accept="image/*"
-                                                    onChange={handleAvatarUpload}
-                                                    style={{ display: 'none' }}
-                                                />
-                                                Upload Photo
-                                            </label>
-                                        )}
+                                        <Avatar user={currentUser} size="large" />
                                     </div>
                                 </div>
 
@@ -310,33 +282,35 @@ function Profile() {
                     )}
 
                     {activeTab === 'favorites' && (
-                        <div className="tab-content">
-                            <div className="content-header">
-                                <h2>My Favorites</h2>
-                                <span className="count-badge">{favorites.length} books</span>
-                            </div>
-
-                            {favorites.length > 0 ? (
-                                <div className="favorites-grid">
-                                    {favorites.map(bookId => (
-                                        <div key={bookId} className="favorite-item">
-                                            <div className="book-placeholder">
-                                                <span>📚</span>
-                                            </div>
-                                            <p className="book-id">Book ID: {bookId}</p>
-                                        </div>
-                                    ))}
+                        <div className="tab-content relative">
+                            <div className="blurred-content">
+                                <div className="content-header">
+                                    <h2>My Favorites</h2>
+                                    <span className="count-badge">0 books</span>
                                 </div>
-                            ) : (
+
                                 <div className="empty-state">
                                     <div className="empty-icon">❤️</div>
                                     <h3>No favorites yet</h3>
                                     <p>Start adding books to your favorites to see them here!</p>
-                                    <button onClick={() => navigate('/app')} className="btn-primary">
+                                    <button className="btn-primary" disabled>
                                         Browse Books
                                     </button>
                                 </div>
-                            )}
+                            </div>
+
+                            <div className="coming-soon-overlay">
+                                <div className="coming-soon-card">
+                                    <div className="coming-soon-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                            <path d="M7 11V7a5 5 0 0110 0v4" />
+                                        </svg>
+                                    </div>
+                                    <h3>Coming Soon</h3>
+                                    <p>We're polishing the favorites system to give you the best experience. Stay tuned for the next update!</p>
+                                </div>
+                            </div>
                         </div>
                     )}
 
@@ -362,6 +336,11 @@ function Profile() {
                     )}
                 </div>
             </div>
+            <footer className="footer">
+                <div className="container">
+                    <p className="copyright">© 2026 BPRS. All rights reserved.</p>
+                </div>
+            </footer>
         </div>
     );
 }
