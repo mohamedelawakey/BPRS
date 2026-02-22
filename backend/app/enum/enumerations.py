@@ -16,15 +16,22 @@ CACHE_TTL = int(float(os.getenv("EXPIRE", 3600)))
 CLEAR_ALL_COUNTER = int(os.getenv("CLEAR_ALL_COUNTER", 100))
 SEARCH_REQUEST_MAX_LENGTH = int(os.getenv("SEARCH_REQUEST_MAX_LENGTH", 255))
 SEARCH_REQUEST_MIN_LENGTH = int(os.getenv("SEARCH_REQUEST_MIN_LENGTH", 1))
+
 TOP_K_GREAT_THAN_OR_EQUAL = int(os.getenv("TOP_K_GREAT_THAN_OR_EQUAL", 1))
+TOP_K_LESS_THAN_OR_EQUAL = int(os.getenv("TOP_K_LESS_THAN_OR_EQUAL", 10000))
+
 RERANK_TOP_K_GREAT_THAN_OR_EQUAL = int(os.getenv("RERANK_TOP_K_GREAT_THAN_OR_EQUAL", 1))
-TOP_K_LESS_THAN_OR_EQUAL = int(os.getenv("TOP_K_LESS_THAN_EQUAL", 220))
-RERANK_TOP_K_LESS_THAN_OR_EQUAL = int(os.getenv("TOP_K_LESS_THAN_EQUAL", 120))
+RERANK_TOP_K_LESS_THAN_OR_EQUAL = int(os.getenv("RERANK_TOP_K_LESS_THAN_OR_EQUAL", 120))
+
+TOP_K_RERANK = int(os.getenv("TOP_K_RERANK", 50))
+TOP_K = int(os.getenv("TOP_K", 100))
+
 SECRET_KEY = os.getenv("SECRET_KEY", "")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", 7))
 HARD_CODED_HOST = os.getenv("HARD_CODED_HOST", "127.0.0.1")
+BLOCK_USER_MINUTES = int(os.getenv("BLOCK_USER_MINUTES", 15))
 
 
 class Enumerations:
@@ -60,6 +67,11 @@ class Enumerations:
     access_token_expire_minutes = ACCESS_TOKEN_EXPIRE_MINUTES
     refresh_token_expire_days = REFRESH_TOKEN_EXPIRE_DAYS
     hard_coded_host = HARD_CODED_HOST
+    block_user_minutes = BLOCK_USER_MINUTES
+
+    # search defaults
+    top_k_rerank = TOP_K_RERANK
+    top_k = TOP_K
 
     # roles
     class Role:
