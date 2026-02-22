@@ -5,7 +5,6 @@ from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from jose.exceptions import ExpiredSignatureError
-from passlib.context import CryptContext
 
 from backend.app.enum.enumerations import Enumerations
 from backend.app.core.logging import get_logger
@@ -20,7 +19,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = Enumerations.access_token_expire_minutes
 REFRESH_TOKEN_EXPIRE_DAYS = Enumerations.refresh_token_expire_days
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def get_client_ip(request: Request) -> str:
@@ -28,15 +26,6 @@ def get_client_ip(request: Request) -> str:
     if x_forwarded_for:
         return x_forwarded_for.split(",")[0].strip()
     return request.client.host or Enumerations.hard_coded_host
-
-
-# PASSWORD
-def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
 
 
 # TOKEN CREATION
@@ -83,7 +72,11 @@ async def create_refresh_token(user_id: str):
     }
 
     redis = await AsyncRedisDBConnection.get_connection()
-    await redis.set(f"user_refresh:{user_id}:{jti}", user_id, ex=REFRESH_TOKEN_EXPIRE_DAYS * 86400)
+    await redis.set(
+        f"user_refresh:{user_id}:{jti}",
+        user_id,
+        ex=REFRESH_TOKEN_EXPIRE_DAYS * 86400
+    )
 
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -142,7 +135,9 @@ async def verify_token(
             )
 
         if ip and payload.get("ip") != ip:
-            logger.warning(f"IP mismatch: Token IP {payload.get('ip')} vs Request IP {ip}")
+            logger.warning(
+                f"IP mismatch: Token IP {payload.get('ip')} vs Request IP {ip}"
+            )
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="IP mismatch"
