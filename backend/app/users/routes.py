@@ -4,7 +4,7 @@ from .models import UserCreate, UserResponse, UserInterestsUpdate, User
 from .service import UserService
 from backend.app.core.security import get_current_user
 
-router = APIRouter
+router = APIRouter()
 logger = get_logger(__name__, system_type="backend")
 
 
