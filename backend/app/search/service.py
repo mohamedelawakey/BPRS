@@ -22,7 +22,7 @@ class SearchService:
             return []
 
         try:
-            cached_results = await CacheManager.get(
+            cached_results, cached_total = await CacheManager.get(
                 query,
                 top_k,
                 apply_rerank,
@@ -31,7 +31,7 @@ class SearchService:
 
             if cached_results is not None:
                 logger.info(f"Returning cached results for: '{query}'")
-                return cached_results
+                return cached_results, cached_total
 
             logger.info(f"Cache miss - calling ML inference for: '{query}'")
 
@@ -51,16 +51,35 @@ class SearchService:
 
             if apply_rerank and len(ml_results) > 0:
                 logger.info(f"Applying reranking to {len(ml_results)} results")
+
+                total_found_count = len(ml_results)
+                display_results = ml_results[:Enumerations.top_k]
+                rerank_limit = min(
+                    len(
+                        display_results
+                    ),
+                    Enumerations.top_k_rerank
+                )
+
                 reranked = await loop.run_in_executor(
                     None,
-                    lambda: Reranker.reranker(ml_results, top_k=rerank_top_k)
+                    lambda: Reranker.reranker(
+                        display_results,
+                        top_k=rerank_limit
+                    )
                 )
 
                 if reranked:
-                    final_results = reranked
+                    reranked_ids = {book['book_id'] for book in reranked}
+                    remaining_books = [b for b in display_results if b['book_id'] not in reranked_ids]
+                    final_results = reranked + remaining_books
                     logger.info(f"Reranking complete - returning top {len(final_results)} results")
                 else:
+                    final_results = display_results
                     logger.warning("Reranking failed - using original ML results")
+            else:
+                total_found_count = len(ml_results)
+                final_results = ml_results[:Enumerations.top_k]
 
             await CacheManager.set(
                 query,
@@ -69,19 +88,20 @@ class SearchService:
                 apply_rerank,
                 rerank_top_k
             )
-            return final_results
+            return final_results, total_found_count
 
         except Exception as e:
             logger.error(f"Search service error for query '{query}': {e}", exc_info=True)
             raise
 
     @staticmethod
-    async def search_simple(query: str, top_k: int = Enumerations.top_k) -> List[Dict[str, Any]]:
-        return await SearchService.search(
+    async def search_simple(query: str, top_k: int = Enumerations.top_k):
+        final_results, total_found_count = await SearchService.search(
             query=query,
             top_k=top_k,
             apply_rerank=False
         )
+        return final_results, total_found_count
 
     @staticmethod
     async def invalidate_cache(
