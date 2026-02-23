@@ -80,9 +80,24 @@ class Enumerations:
 
     # DB auth queries
     create_session_query = """
-            INSERT INTO user_sessions (user_id, refresh_jti, expires_at, device_info)
-            VALUES ($1, $2, $3, $4)
-        """
+        INSERT INTO user_sessions (user_id, refresh_jti, expires_at, device_info)
+        VALUES ($1, $2, $3, $4)
+    """
     get_session_query = "SELECT * FROM user_sessions WHERE refresh_jti = $1"
     revoke_session_query = "UPDATE user_sessions SET is_revoked = TRUE WHERE refresh_jti = $1"
     revoke_all_sessions_query = "UPDATE user_sessions SET is_revoked = TRUE WHERE user_id = $1"
+
+    # DB users queries
+    get_by_email_query = "SELECT * FROM users WHERE email = $1"
+    get_by_id_query = "SELECT * FROM users WHERE id = $1"
+    create_user_query = """
+        INSERT INTO users (id, email, full_name, role, is_active, hashed_password, created_at, interests)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING id, email, full_name, role, is_active, created_at, interests
+    """
+    update_interests_query = """
+        UPDATE users
+        SET interests = $1
+        WHERE id = $2
+        RETURNING id, email, full_name, role, is_active, created_at, interests
+    """
