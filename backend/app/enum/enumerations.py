@@ -78,6 +78,7 @@ class Enumerations:
         admin = "admin"
         user = "user"
 
+
     # DB auth queries
     create_session_query = """
         INSERT INTO user_sessions (user_id, refresh_jti, expires_at, device_info)
