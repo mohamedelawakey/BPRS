@@ -14,6 +14,9 @@ venv
 # logs
 logs/
 
+# md
+comands.md
+
 # data in ml
 ml/data/similarity
 ml/data/cleaned
