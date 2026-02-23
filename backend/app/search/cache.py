@@ -30,7 +30,7 @@ class CacheManager:
         top_k: int,
         apply_rerank: bool = True,
         rerank_top_k: int = Enumerations.top_k_rerank
-    ) -> Optional[List[Dict[str, Any]]]:
+    ) -> tuple[Optional[List[Dict[str, Any]]], int]:
         try:
             redis_client = await AsyncRedisDBConnection.get_connection()
             cache_key = CacheManager._generate_key(
@@ -44,20 +44,25 @@ class CacheManager:
 
             if cached_data:
                 logger.info(f"Cache hit for query: '{query}' (top_k={top_k}, rerank={apply_rerank})")
-                return json.loads(cached_data)
+                parsed = json.loads(cached_data)
+                if isinstance(parsed, dict) and 'results' in parsed and 'total_results' in parsed:
+                    return parsed['results'], parsed['total_results']
+                else:
+                    return parsed, len(parsed)
 
             logger.info(f"Cache miss for query: '{query}' (top_k={top_k}, rerank={apply_rerank})")
-            return None
+            return None, 0
 
         except Exception as e:
             logger.warning(f"Cache get error: {e}", exc_info=True)
-            return None
+            return None, 0
 
     @staticmethod
     async def set(
         query: str,
         top_k: int,
         result: Optional[List[Dict[str, Any]]],
+        total_results: int,
         apply_rerank: bool = True,
         rerank_top_k: int = Enumerations.top_k_rerank
     ) -> bool:
@@ -69,11 +74,16 @@ class CacheManager:
                 apply_rerank,
                 rerank_top_k
             )
+            
+            payload = {
+                "results": result,
+                "total_results": total_results
+            }
 
             await redis_client.setex(
                 cache_key,
                 CacheManager.CACHE_TTL,
-                json.dumps(result)
+                json.dumps(payload)
             )
 
             logger.info(f"Cached results for query: '{query}' (top_k={top_k}, rerank={apply_rerank})")
