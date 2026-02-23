@@ -1,0 +1,51 @@
+# Python specific ignores
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ML specific ignores (adjust as needed for your project)
+*.pkl
+*.joblib
+*.sav
+*.h5
+*.hdf5
+*.data
+*.index
+checkpoints/
+models/
+data/
+datasets/
+results/
+notebooks/
+
+# General development ignores
+.venv
+venv/
+/venv
+.env
+.idea/
+.vscode/
+.DS_Store
+.git/
+.gitignore
+.pytest_cache/
+.mypy_cache/
+.tox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+npm-debug.log*
+
+# Docker specific ignores (if present in the context)
+Dockerfile
+docker-compose*.yml
+imgs/
+logs/
