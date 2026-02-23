@@ -68,17 +68,23 @@ function AboutModal({ isOpen, onClose }) {
                     <section className="about-section">
                         <h3>Tech Stack</h3>
                         <div className="tech-tags">
-                            <span className="tech-tag">Python 3.12</span>
+                            <span className="tech-tag">Python</span>
                             <span className="tech-tag">FastAPI</span>
                             <span className="tech-tag">React</span>
+                            <span className="tech-tag">Vite</span>
                             <span className="tech-tag">PostgreSQL</span>
                             <span className="tech-tag">PGVector</span>
                             <span className="tech-tag">Docker</span>
+                            <span className="tech-tag">Docker Compose</span>
+                            <span className="tech-tag">Shell</span>
+                            <span className="tech-tag">Git</span>
+                            <span className="tech-tag">GitHub</span>
+                            <span className="tech-tag">Docs</span>
                         </div>
                     </section>
 
                     <section className="about-section about-author">
-                        <h3>AI &amp; Software Engineer</h3>
+                        <h3>Developed by</h3>
                         <div className="author-card">
                             <div className="author-avatar-container">
                                 <img src="public/favicon.png" alt="Mohamed Mostafa Alawakey Logo" className="author-avatar-img" />
