@@ -37,8 +37,8 @@ class Enumerations():
     """
 
     metadata_service_query = """
-        SELECT book_id, name, name_cleaned, authors, publisher, description,
-        description_cleaned, rating, publishyear, weighted_rating,
+        SELECT book_id, name_cleaned AS name, authors, publisher,
+        description_cleaned AS description, rating, publishyear, weighted_rating,
         counts_of_review_scaled, tech_score_scaled, publishyear_scaled,
         average_low_rating, average_high_rating
         FROM books
