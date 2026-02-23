@@ -10,7 +10,7 @@ RETRIES = int(float(os.getenv('RETRIES', 3)))
 RETRY_DELAY = int(float(os.getenv('RETRY_DELAY', 3)))
 MAX_CONNECTIONS = int(float(os.getenv('MAX_CONNECTIONS', 20)))
 MIN_CONNECTIONS = int(float(os.getenv('MIN_CONNECTIONS', 1)))
-LIMIT = int(float(os.getenv("LIMIT", 30)))
+LIMIT = int(float(os.getenv("LIMIT", 5)))
 WINDOW_SECOND = int(float(os.getenv("WINDOW_SECOND", 60)))
 CACHE_TTL = int(float(os.getenv("EXPIRE", 3600)))
 CLEAR_ALL_COUNTER = int(os.getenv("CLEAR_ALL_COUNTER", 100))
@@ -77,3 +77,12 @@ class Enumerations:
     class Role:
         admin = "admin"
         user = "user"
+
+    # DB auth queries
+    create_session_query = """
+            INSERT INTO user_sessions (user_id, refresh_jti, expires_at, device_info)
+            VALUES ($1, $2, $3, $4)
+        """
+    get_session_query = "SELECT * FROM user_sessions WHERE refresh_jti = $1"
+    revoke_session_query = "UPDATE user_sessions SET is_revoked = TRUE WHERE refresh_jti = $1"
+    revoke_all_sessions_query = "UPDATE user_sessions SET is_revoked = TRUE WHERE user_id = $1"
