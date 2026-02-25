@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y \
 COPY backend/requirements.txt ./backend/
 COPY ml/requirements.txt ./ml/
 
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r backend/requirements.txt -r ml/requirements.txt
+RUN pip install --no-cache-dir -r backend/requirements.txt -r ml/requirements.txt
 
 COPY backend/ /app/backend/
 COPY ml/ /app/ml/
