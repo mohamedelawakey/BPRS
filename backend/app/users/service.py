@@ -42,7 +42,7 @@ class UserService:
 
         new_id = str(uuid4())
         hashed_pw = hash_password(user_in.password)
-        created_at = datetime.now(timezone.utc)
+        created_at = datetime.utcnow()
         role = Enumerations.Role.user
         is_active = True
 
