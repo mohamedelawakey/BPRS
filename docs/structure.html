@@ -249,19 +249,19 @@
         }
 
         .folder-content {
-            transition: all 0.3s ease-out;
-            transform-origin: top;
-            overflow: hidden;
-        }
-
-        .folder-content.collapsed {
-            max-height: 0;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out, opacity 0.3s ease-out;
             opacity: 0;
             margin: 0;
         }
 
+        .folder-inner {
+            overflow: hidden;
+        }
+
         .folder-content.expanded {
-            max-height: 5000px;
+            grid-template-rows: 1fr;
             opacity: 1;
         }
 
@@ -906,12 +906,12 @@
             html += '</div>';
 
             if (hasChildren) {
-                html += `<div id="${id}" class="folder-content expanded">`;
+                html += `<div id="${id}" class="folder-content expanded"><div class="folder-inner">`;
                 const newPrefix = level === 0 ? '' : prefix + (isLast ? '    ' : '│   ');
                 item.children.forEach((child, index) => {
                     html += renderTree(child, level + 1, newPrefix, index === item.children.length - 1);
                 });
-                html += `</div>`;
+                html += `</div></div>`;
             }
 
             return html;
