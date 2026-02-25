@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Structure - Book Recommendation System</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-primary: #0a0a0f;
+            --color-bg-secondary: #12121a;
+            --color-bg-tertiary: #1a1a2e;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: rgba(255, 255, 255, 0.7);
+            --color-text-muted: rgba(255, 255, 255, 0.5);
+            --color-accent-primary: #667eea;
+            --color-accent-secondary: #764ba2;
+            --color-accent-coral: #ff6b6b;
+            --color-accent-teal: #4ecdc4;
+            --color-accent-gold: #ffd93d;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition-normal: 0.3s ease;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 107, 107, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: breathe 8s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 0 40px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .logo-img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.4));
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--color-text-secondary);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-accent-primary);
+            text-decoration: none;
+            margin-bottom: 32px;
+            transition: var(--transition-normal);
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: var(--color-accent-secondary);
+            transform: translateX(-4px);
+        }
+
+        .tree-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+            box-shadow: var(--shadow-lg);
+            overflow-x: auto;
+        }
+
+        .tree {
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            white-space: pre;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: center;
+            padding: 2px 8px;
+            margin-left: -8px;
+            transition: var(--transition-normal);
+            border-radius: 6px;
+            width: max-content;
+            min-width: 100%;
+        }
+
+        .tree-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tree-line {
+            color: var(--color-text-muted);
+            user-select: none;
+            font-weight: normal;
+        }
+
+        .tree-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.1rem;
+            height: 1.1rem;
+            margin: 0 8px 0 4px;
+        }
+
+        .tree-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tree-folder {
+            color: var(--color-text-primary);
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .tree-file {
+            color: var(--color-text-secondary);
+        }
+
+        .tree-comment {
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-left: 16px;
+            font-family: var(--font-family);
+            opacity: 0.8;
+        }
+
+        .icon-folder {
+            color: var(--color-accent-primary);
+            fill: currentColor;
+        }
+
+        .icon-file-js {
+            color: var(--color-accent-gold);
+        }
+
+        .icon-file-py {
+            color: var(--color-accent-teal);
+        }
+
+        .icon-file-css {
+            color: var(--color-accent-coral);
+        }
+
+        .icon-file-json {
+            color: var(--color-accent-secondary);
+        }
+
+        .icon-file-md {
+            color: var(--color-text-secondary);
+        }
+
+        .icon-file-yaml {
+            color: var(--color-accent-coral);
+        }
+
+        .icon-file-html {
+            color: var(--color-accent-primary);
+        }
+
+        .icon-file {
+            color: var(--color-text-muted);
+        }
+
+        .folder-content {
+            transition: all 0.3s ease-out;
+            transform-origin: top;
+            overflow: hidden;
+        }
+
+        .folder-content.collapsed {
+            max-height: 0;
+            opacity: 0;
+            margin: 0;
+        }
+
+        .folder-content.expanded {
+            max-height: 5000px;
+            opacity: 1;
+        }
+
+        .toggle-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 4px;
+            color: var(--color-text-muted);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .toggle-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        .tree-folder {
+            cursor: pointer;
+        }
+
+        .tree-folder:hover {
+            color: var(--color-accent-primary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            color: var(--color-text-primary);
+            font-family: var(--font-family);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+
+        .btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: var(--color-accent-primary);
+            transform: translateY(-2px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 100px;
+            border: 2px solid var(--color-bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(102, 126, 234, 0.8);
+        }
+
+        ::selection {
+            background: rgba(102, 126, 234, 0.3);
+            color: var(--color-text-primary);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tree-container {
+                padding: 24px;
+            }
+
+            .tree {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo.png" alt="Logo" class="logo-img">
+            <h1>Project Structure</h1>
+            <p class="subtitle">Interactive File & Directory Tree</p>
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Documentation</a>
+
+        <div class="controls">
+            <button class="btn" onclick="expandAll()">Expand All</button>
+            <button class="btn" onclick="collapseAll()">Collapse All</button>
+        </div>
+
+        <div class="tree-container">
+            <div class="tree" id="tree">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const treeData = {
+            name: "Programming_Books_Recommendation_System",
+            type: "folder",
+            children: [
+                { name: "venv", type: "folder" },
+                {
+                    name: "system",
+                    type: "folder",
+                    description: "SYSTEM ORCHESTRATOR",
+                    children: [
+                        { name: "docker-compose.yml", type: "file", ext: "yaml" },
+                        { name: "run_all.sh", type: "file" },
+                        { name: "healthcheck.py", type: "file", ext: "py" },
+                        { name: "README.md", type: "file", ext: "md" }
+                    ]
+                },
+                {
+                    name: "versions",
+                    type: "folder",
+                    description: "GLOBAL VERSIONING",
+                    children: [
+                        { name: "data_versions.yaml", type: "file", ext: "yaml" },
+                        { name: "model_versions.yaml", type: "file", ext: "yaml" },
+                        { name: "api_versions.yaml", type: "file", ext: "yaml" },
+                        { name: "pipeline_versions.yaml", type: "file", ext: "yaml" }
+                    ]
+                },
+                {
+                    name: "frontend",
+                    type: "folder",
+                    children: [
+                        { name: ".gitignore", type: "file" },
+                        { name: "env.example", type: "file" },
+                        { name: ".env", type: "file" },
+                        { name: "README.md", type: "file", ext: "md" },
+                        { name: "eslint.config.js", type: "file", ext: "js" },
+                        { name: "index.html", type: "file", ext: "html" },
+                        { name: "package.json", type: "file", ext: "json" },
+                        { name: "package-lock.json", type: "file", ext: "json" },
+                        { name: "vite.config.js", type: "file", ext: "js" },
+                        {
+                            name: "public",
+                            type: "folder",
+                            children: [
+                                { name: "logo.png", type: "file" },
+                                { name: "logo.svg", type: "file" },
+                                { name: "vite.svg", type: "file" }
+                            ]
+                        },
+                        {
+                            name: "src",
+                            type: "folder",
+                            children: [
+                                { name: "App.css", type: "file", ext: "css" },
+                                { name: "App.jsx", type: "file", ext: "js" },
+                                { name: "MainApp.jsx", type: "file", ext: "js" },
+                                { name: "index.css", type: "file", ext: "css" },
+                                { name: "main.jsx", type: "file", ext: "js" },
+                                {
+                                    name: "assets",
+                                    type: "folder",
+                                    children: [
+                                        { name: "react.svg", type: "file" }
+                                    ]
+                                },
+                                {
+                                    name: "components",
+                                    type: "folder",
+                                    children: [
+                                        { name: "AboutModal.css", type: "file", ext: "css" },
+                                        { name: "AboutModal.jsx", type: "file", ext: "js" },
+                                        { name: "Avatar.css", type: "file", ext: "css" },
+                                        { name: "Avatar.jsx", type: "file", ext: "js" },
+                                        { name: "BackgroundParticles.css", type: "file", ext: "css" },
+                                        { name: "BackgroundParticles.jsx", type: "file", ext: "js" },
+                                        { name: "BookCard.css", type: "file", ext: "css" },
+                                        { name: "BookCard.jsx", type: "file", ext: "js" },
+                                        { name: "BookGrid.css", type: "file", ext: "css" },
+                                        { name: "BookGrid.jsx", type: "file", ext: "js" },
+                                        { name: "Header.css", type: "file", ext: "css" },
+                                        { name: "Header.jsx", type: "file", ext: "js" },
+                                        { name: "InterestsSelector.css", type: "file", ext: "css" },
+                                        { name: "InterestsSelector.jsx", type: "file", ext: "js" },
+                                        { name: "KeyboardShortcuts.css", type: "file", ext: "css" },
+                                        { name: "KeyboardShortcuts.jsx", type: "file", ext: "js" },
+                                        { name: "LoadingAnimation.css", type: "file", ext: "css" },
+                                        { name: "LoadingAnimation.jsx", type: "file", ext: "js" },
+                                        { name: "LogoViewerModal.css", type: "file", ext: "css" },
+                                        { name: "LogoViewerModal.jsx", type: "file", ext: "js" },
+                                        { name: "Pagination.css", type: "file", ext: "css" },
+                                        { name: "Pagination.jsx", type: "file", ext: "js" },
+                                        { name: "PasswordStrengthMeter.css", type: "file", ext: "css" },
+                                        { name: "PasswordStrengthMeter.jsx", type: "file", ext: "js" },
+                                        { name: "ProtectedRoute.jsx", type: "file", ext: "js" },
+                                        { name: "SearchBar.css", type: "file", ext: "css" },
+                                        { name: "SearchBar.jsx", type: "file", ext: "js" },
+                                        { name: "TagCloud.css", type: "file", ext: "css" },
+                                        { name: "TagCloud.jsx", type: "file", ext: "js" },
+                                        { name: "TechTicker.css", type: "file", ext: "css" },
+                                        { name: "TechTicker.jsx", type: "file", ext: "js" }
+                                    ]
+                                },
+                                {
+                                    name: "constants",
+                                    type: "folder",
+                                    children: [
+                                        { name: "interests.js", type: "file", ext: "js" },
+                                        { name: "searchSuggestions.js", type: "file", ext: "js" }
+                                    ]
+                                },
+                                {
+                                    name: "contexts",
+                                    type: "folder",
+                                    children: [
+                                        { name: "AuthContext.jsx", type: "file", ext: "js" }
+                                    ]
+                                },
+                                { name: "data", type: "folder" },
+                                {
+                                    name: "pages",
+                                    type: "folder",
+                                    children: [
+                                        { name: "Landing.css", type: "file", ext: "css" },
+                                        { name: "Landing.jsx", type: "file", ext: "js" },
+                                        { name: "Login.css", type: "file", ext: "css" },
+                                        { name: "Login.jsx", type: "file", ext: "js" },
+                                        { name: "Profile.css", type: "file", ext: "css" },
+                                        { name: "Profile.jsx", type: "file", ext: "js" },
+                                        { name: "SignUp.css", type: "file", ext: "css" },
+                                        { name: "SignUp.jsx", type: "file", ext: "js" }
+                                    ]
+                                },
+                                {
+                                    name: "utils",
+                                    type: "folder",
+                                    children: [
+                                        { name: "encryption.js", type: "file", ext: "js" },
+                                        { name: "storage.js", type: "file", ext: "js" },
+                                        { name: "validators.js", type: "file", ext: "js" }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "backend",
+                    type: "folder",
+                    children: [
+                        {
+                            name: "app",
+                            type: "folder",
+                            children: [
+                                { name: "main.py", type: "file", ext: "py" },
+                                {
+                                    name: "core",
+                                    type: "folder",
+                                    children: [
+                                        { name: "config.py", type: "file", ext: "py" },
+                                        { name: "logging.py", type: "file", ext: "py" },
+                                        { name: "rate_limit.py", type: "file", ext: "py" },
+                                        { name: "security.py", type: "file", ext: "py" }
+                                    ]
+                                },
+                                {
+                                    name: "auth",
+                                    type: "folder",
+                                    children: [
+                                        { name: "routes.py", type: "file", ext: "py" },
+                                        { name: "service.py", type: "file", ext: "py" },
+                                        { name: "models.py", type: "file", ext: "py" }
+                                    ]
+                                },
+                                {
+                                    name: "users",
+                                    type: "folder",
+                                    children: [
+                                        { name: "routes.py", type: "file", ext: "py" },
+                                        { name: "interests.py", type: "file", ext: "py" },
+                                        { name: "models.py", type: "file", ext: "py" }
+                                    ]
+                                },
+                                {
+                                    name: "books",
+                                    type: "folder",
+                                    children: [
+                                        { name: "routes.py", type: "file", ext: "py" },
+                                        { name: "repository.py", type: "file", ext: "py" },
+                                        { name: "models.py", type: "file", ext: "py" }
+                                    ]
+                                },
+                                {
+                                    name: "search",
+                                    type: "folder",
+                                    description: "production inference",
+                                    children: [
+                                        { name: "routes.py", type: "file", ext: "py" },
+                                        { name: "semantic.py", type: "file", ext: "py" },
+                                        { name: "cache.py", type: "file", ext: "py" },
+                                        { name: "service.py", type: "file", ext: "py" }
+                                    ]
+                                },
+                                {
+                                    name: "analytics",
+                                    type: "folder",
+                                    children: [
+                                        { name: "events.py", type: "file", ext: "py" },
+                                        { name: "tracker.py", type: "file", ext: "py" }
+                                    ]
+                                },
+                                {
+                                    name: "monitoring",
+                                    type: "folder",
+                                    children: [
+                                        { name: "drift.py", type: "file", ext: "py" },
+                                        { name: "metrics.py", type: "file", ext: "py" },
+                                        { name: "alerts.py", type: "file", ext: "py" }
+                                    ]
+                                },
+                                {
+                                    name: "db",
+                                    type: "folder",
+                                    children: [
+                                        { name: "postgres.py", type: "file", ext: "py" },
+                                        { name: "redis.py", type: "file", ext: "py" },
+                                        { name: "pg_vector.py", type: "file", ext: "py" }
+                                    ]
+                                }
+                            ]
+                        },
+                        { name: "Dockerfile", type: "file" },
+                        { name: "requirements.txt", type: "file" }
+                    ]
+                },
+                {
+                    name: "ml",
+                    type: "folder",
+                    children: [
+                        {
+                            name: "notebooks",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "v1",
+                                    type: "folder",
+                                    children: [
+                                        { name: "01_cleaning_and_eda.ipynb", type: "file" },
+                                        { name: "02_feature_engineering.ipynb", type: "file" },
+                                        { name: "03_preprocessing.ipynb", type: "file" },
+                                        { name: "04_test_search_similarity.ipynb", type: "file" },
+                                        { name: "05_data_conversion_to_sql.ipynb", type: "file" },
+                                        { name: "env.example", type: "file" },
+                                        { name: ".env", type: "file" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            name: "data",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "raw",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "v1",
+                                            type: "folder",
+                                            children: [
+                                                { name: "goodreads_part1.csv", type: "file" },
+                                                { name: "goodreads_part2.csv", type: "file" },
+                                                { name: "...", type: "file" }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "merged",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "v1",
+                                            type: "folder",
+                                            children: [
+                                                { name: "goodreads_raw_merged.csv", type: "file" }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "cleaned",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "v1",
+                                            type: "folder",
+                                            children: [
+                                                { name: "books_cleaned.csv", type: "file" }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "filtered",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "v1",
+                                            type: "folder",
+                                            children: [
+                                                { name: "tech_books_filtered.csv", type: "file" }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "featured",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "v1",
+                                            type: "folder",
+                                            children: [
+                                                { name: "tech_books_featured.csv", type: "file" }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "processed",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "v1",
+                                            type: "folder",
+                                            children: [
+                                                { name: "books_for_embedding.csv", type: "file" }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "similarity",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "v1",
+                                            type: "folder",
+                                            children: [
+                                                { name: "books_with_similarity.csv", type: "file" }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            name: "Enum",
+                            type: "folder",
+                            children: [
+                                { name: "Enumerations.py", type: "file", ext: "py" }
+                            ]
+                        },
+                        {
+                            name: "pipeline",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "v1",
+                                    type: "folder",
+                                    children: [
+                                        { name: "clean.py", type: "file", ext: "py" },
+                                        { name: "feature.py", type: "file", ext: "py" },
+                                        { name: "embed.py", type: "file", ext: "py" },
+                                        { name: "versions.yaml", type: "file", ext: "yaml" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            name: "models",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "v1",
+                                    type: "folder",
+                                    children: [
+                                        { name: "embedder.py", type: "file", ext: "py" },
+                                        { name: "versions.yaml", type: "file", ext: "yaml" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            name: "inference",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "v1",
+                                    type: "folder",
+                                    children: [
+                                        { name: "search.py", type: "file", ext: "py" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            name: "ranking",
+                            type: "folder",
+                            children: [
+                                { name: "reranking.py", type: "file", ext: "py" }
+                            ]
+                        },
+                        {
+                            name: "services",
+                            type: "folder",
+                            children: [
+                                { name: "vector_service.py", type: "file", ext: "py" },
+                                { name: "metadata_service.py", type: "file", ext: "py" }
+                            ]
+                        },
+                        {
+                            name: "vector_db",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "v1",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "pgvector",
+                                            type: "folder",
+                                            children: [
+                                                { name: "schema.json", type: "file", ext: "json" },
+                                                { name: "versions.yaml", type: "file", ext: "yaml" }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        { name: "tests", type: "folder" },
+                        { name: "Dockerfile", type: "file" },
+                        { name: "requirements.txt", type: "file" }
+                    ]
+                },
+                {
+                    name: "logs",
+                    type: "folder",
+                    children: [
+                        { name: "backend", type: "folder" },
+                        { name: "ml", type: "folder" },
+                        { name: "system", type: "folder" }
+                    ]
+                },
+                { name: ".gitignore", type: "file" },
+                { name: ".env", type: "file" },
+                { name: "env.example", type: "file" },
+                { name: "README.md", type: "file", ext: "md" },
+                { name: "FileStructure.md", type: "file", ext: "md" }
+            ]
+        };
+
+        const icons = {
+            folder: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>',
+            file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>'
+        };
+
+        function getIconHTML(item) {
+            return item.type === 'folder' ? icons.folder : icons.file;
+        }
+
+        function getIconClass(item) {
+            if (item.type === 'folder') return 'icon-folder';
+            const ext = item.ext || '';
+            const known = ['py', 'js', 'html', 'css', 'json', 'md', 'yaml'];
+            return known.includes(ext) ? `icon-file-${ext}` : 'icon-file';
+        }
+
+        function renderTree(item, level = 0, prefix = '', isLast = true) {
+            const isFolder = item.type === 'folder';
+            const hasChildren = item.children && item.children.length > 0;
+            const id = `item-${Math.random().toString(36).substr(2, 9)}`;
+
+            let html = `<div class="tree-item" ${isFolder ? `onclick="toggleFolder('${id}')"` : ''}>`;
+
+            const connector = isLast ? '└── ' : '├── ';
+            const linePrefix = level === 0 ? '' : prefix;
+
+            html += `<span class="tree-line">${linePrefix}${level > 0 ? connector : ''}</span>`;
+
+            if (isFolder && hasChildren) {
+                html += `<span class="toggle-icon rotated"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></span>`;
+            } else if (isFolder) {
+                // Empty folder placeholder for alignment
+                html += `<span class="toggle-icon"></span>`;
+            }
+
+            html += `<span class="tree-icon ${getIconClass(item)}">${getIconHTML(item)}</span>`;
+
+            if (isFolder) {
+                html += `<span class="tree-folder">${item.name}</span>`;
+            } else {
+                html += `<span class="tree-file">${item.name}</span>`;
+            }
+
+            if (item.description) {
+                html += `<span class="tree-comment">// ${item.description}</span>`;
+            }
+
+            html += '</div>';
+
+            if (hasChildren) {
+                html += `<div id="${id}" class="folder-content expanded">`;
+                const newPrefix = level === 0 ? '' : prefix + (isLast ? '    ' : '│   ');
+                item.children.forEach((child, index) => {
+                    html += renderTree(child, level + 1, newPrefix, index === item.children.length - 1);
+                });
+                html += `</div>`;
+            }
+
+            return html;
+        }
+
+        function toggleFolder(id) {
+            const content = document.getElementById(id);
+            if (!content) return; // For empty folders
+
+            // The logic: the toggle icon is inside the previous sibling element (.tree-item)
+            const icon = content.previousElementSibling.querySelector('.toggle-icon');
+
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                content.classList.add('collapsed');
+                if (icon) icon.classList.remove('rotated');
+            } else {
+                content.classList.remove('collapsed');
+                content.classList.add('expanded');
+                if (icon) icon.classList.add('rotated');
+            }
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.folder-content').forEach(el => {
+                el.classList.remove('collapsed');
+                el.classList.add('expanded');
+            });
+            document.querySelectorAll('.toggle-icon').forEach(el => {
+                el.classList.add('rotated');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.folder-content').forEach(el => {
+                el.classList.remove('expanded');
+                el.classList.add('collapsed');
+            });
+            document.querySelectorAll('.toggle-icon').forEach(el => {
+                el.classList.remove('rotated');
+            });
+        }
+
+        document.getElementById('tree').innerHTML = renderTree(treeData);
+    </script>
+</body>
+
+</html>
