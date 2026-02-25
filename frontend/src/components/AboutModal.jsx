@@ -87,10 +87,10 @@ function AboutModal({ isOpen, onClose }) {
                         <h3>Developed by</h3>
                         <div className="author-card">
                             <div className="author-avatar-container">
-                                <img src="public/favicon.png" alt="Mohamed Mostafa Alawakey Logo" className="author-avatar-img" />
+                                <img src="/favicon.png" alt="Mohamed Mostafa Alawakey" className="author-avatar-img" />
                             </div>
                             <div className="author-info">
-                                <strong>Mohamed Mostafa Alawakey</strong>
+                                <strong>Mohamed Alawakey</strong>
                                 <p>AI & ML Engineer</p>
                                 <a
                                     href="https://mohamedalawakey.pages.dev/"
