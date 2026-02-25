@@ -1,51 +1,72 @@
-# Python specific ignores
-__pycache__
+# ============================================================
+# NOTE: Build context for ml is the PROJECT ROOT (.)
+# Both ml/ and backend/ directories are COPYed in Dockerfile
+# ml/models and ml/data are NEEDED at runtime - do NOT ignore!
+# ============================================================
+
+# Python cache
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
-env
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# pip
 pip-log.txt
 pip-delete-this-directory.txt
 
-# ML specific ignores (adjust as needed for your project)
-*.pkl
-*.joblib
-*.sav
-*.h5
-*.hdf5
-*.data
-*.index
-checkpoints/
-models/
-data/
-datasets/
-results/
-notebooks/
-
-# General development ignores
-.venv
-venv/
-/venv
-.env
-.idea/
-.vscode/
-.DS_Store
-.git/
-.gitignore
+# Tests & coverage (not needed in production image)
 .pytest_cache/
 .mypy_cache/
 .tox/
 .coverage
 .coverage.*
+htmlcov/
 nosetests.xml
 coverage.xml
 *.cover
+ml/tests/
+backend/tests/
+
+# Dev/research files (not needed in production)
+ml/notebooks/
+notebooks/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# IDE & OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Logs
 *.log
+logs/
+
+# Node (shouldn't be here but just in case)
+node_modules/
 npm-debug.log*
 
-# Docker specific ignores (if present in the context)
-Dockerfile
+# Frontend (not needed for ML)
+frontend/
+
+# Docker files themselves
 docker-compose*.yml
 imgs/
-logs/
+docs/
+system/
