@@ -5,8 +5,7 @@ WORKDIR /app
 COPY ml/requirements.txt ./ml/
 COPY backend/requirements.txt ./backend/
 
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install -r ml/requirements.txt
+RUN pip install --no-cache-dir -r ml/requirements.txt
 
 COPY ml/ ./ml/
 COPY backend/ ./backend/
