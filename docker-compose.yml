@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  db:
+    image: ankane/pgvector:v0.5.0
+    container_name: bprs_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-your_database_name}
+      POSTGRES_USER: ${DB_USER:-your_database_username}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-your_database_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - back-tier
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-your_database_username} -d ${DB_NAME:-your_database_name}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: bprs_redis
+    restart: always
+    command: --requirepass ${REDIS_PASSWORD:-your_super_secure_password_123}
+    volumes:
+      - redis_data:/data
+    networks:
+      - back-tier
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-your_super_secure_password_123}", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: bprs_backend
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - back-tier
+      - front-tier
+    healthcheck:
+      test: [ "CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\"" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: bprs_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - front-tier
+
+networks:
+  front-tier:
+  back-tier:
+
+
+volumes:
+  postgres_data:
+  redis_data:
