@@ -45,29 +45,29 @@ class AsyncRedisDBConnection:
                         retry_on_timeout=True
                     )
 
-                    attempt = 0
-                    while attempt < retries:
-                        try:
-                            redis = Redis(
-                                connection_pool=AsyncRedisDBConnection._pool
-                            )
-                            await redis.ping()
+                attempt = 0
+                while attempt < retries:
+                    try:
+                        redis = Redis(
+                            connection_pool=AsyncRedisDBConnection._pool
+                        )
+                        await redis.ping()
 
-                            AsyncRedisDBConnection._instance = redis
-                            logger.info("Connected to Redis (async) successfully")
+                        AsyncRedisDBConnection._instance = redis
+                        logger.info("Connected to Redis (async) successfully")
 
-                            return redis
+                        return redis
 
-                        except (RedisError, ConnectionError) as e:
-                            attempt += 1
-                            logger.warning(
-                                f"Async Redis connection attempt {attempt}/{retries} failed: {e}"
-                            )
-                            await asyncio.sleep(retry_delay)
+                    except (RedisError, ConnectionError) as e:
+                        attempt += 1
+                        logger.warning(
+                            f"Async Redis connection attempt {attempt}/{retries} failed: {e}"
+                        )
+                        await asyncio.sleep(retry_delay)
 
-                    raise ConnectionError(
-                        f"Failed to connect to Redis after {retries} attempts"
-                    )
+                raise ConnectionError(
+                    f"Failed to connect to Redis after {retries} attempts"
+                )
 
             except Exception as e:
                 logger.error(
