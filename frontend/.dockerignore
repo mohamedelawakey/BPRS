@@ -1,51 +1,52 @@
-# Python specific ignores
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-.Python
-env
-pip-log.txt
-pip-delete-this-directory.txt
+# ============================================================
+# NOTE: Build context for frontend is ./frontend
+# ============================================================
 
-# ML specific ignores (adjust as needed for your project)
-*.pkl
-*.joblib
-*.sav
-*.h5
-*.hdf5
-*.data
-*.index
-checkpoints/
-models/
-data/
-datasets/
-results/
-notebooks/
+# THE MOST IMPORTANT: node_modules can be 200MB+
+node_modules/
 
-# General development ignores
-.venv
-venv/
-/venv
+# Built output (rebuilt inside Docker)
+dist/
+build/
+.output/
+
+# Environment & secrets
 .env
+.env.*
+!.env.example
+
+# IDE & OS
 .idea/
 .vscode/
 .DS_Store
+Thumbs.db
+
+# Git
 .git/
 .gitignore
-.pytest_cache/
-.mypy_cache/
-.tox/
-.coverage
-.coverage.*
-nosetests.xml
-coverage.xml
-*.cover
+.gitattributes
+
+# Logs
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Docker specific ignores (if present in the context)
-Dockerfile
-docker-compose*.yml
-imgs/
-logs/
+# Test & coverage artifacts
+coverage/
+.nyc_output/
+*.lcov
+
+# Cache
+.cache/
+.parcel-cache/
+.vite/
+
+# Storybook
+storybook-static/
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc docs
+README.md
