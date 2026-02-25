@@ -34,11 +34,9 @@ coverage.xml
 *.cover
 **/tests/
 
-# ─── ML model artifacts & large data ───────────────────────
-# These are NOT needed by the backend image.
-# For the ML service, these are mounted via docker-compose volumes (bind mounts)
-# so they don't need to be baked into the image either.
-ml/models/
+# ─── ML large data files ────────────────────────────────────
+# Exclude large data CSVs (mounted via docker-compose volumes)
+# NOTE: ml/models/ is NOT excluded — it contains Python code (embedder.py)
 ml/data/
 *.pkl
 *.joblib
@@ -47,7 +45,6 @@ ml/data/
 *.hdf5
 *.npy
 *.npz
-*.bin
 *.pt
 *.pth
 
