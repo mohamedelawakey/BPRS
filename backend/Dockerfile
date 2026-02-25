@@ -7,11 +7,14 @@ RUN apt-get update && apt-get install -y \
     gcc\
     &&rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY backend/requirements.txt ./backend/
+COPY ml/requirements.txt ./ml/
 
-COPY . /app/backend
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r backend/requirements.txt -r ml/requirements.txt
 
+COPY backend/ /app/backend/
+COPY ml/ /app/ml/
 ENV PYTHONPATH=/app
 
 EXPOSE 8000
