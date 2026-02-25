@@ -1,0 +1,95 @@
+# ============================================================
+# ROOT-LEVEL .dockerignore
+# Applies to: backend service (context=.) and ml service (context=.)
+# For frontend, see frontend/.dockerignore
+# ============================================================
+
+# ─── Python cache ───────────────────────────────────────────
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.Python
+
+# ─── Virtual environments ───────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ─── pip ────────────────────────────────────────────────────
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ─── Tests & coverage artifacts ─────────────────────────────
+.pytest_cache/
+**/.pytest_cache/
+.mypy_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+nosetests.xml
+coverage.xml
+*.cover
+**/tests/
+
+# ─── ML model artifacts & large data ───────────────────────
+# These are NOT needed by the backend image.
+# For the ML service, these are mounted via docker-compose volumes (bind mounts)
+# so they don't need to be baked into the image either.
+ml/models/
+ml/data/
+*.pkl
+*.joblib
+*.sav
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.bin
+*.pt
+*.pth
+
+# ─── Dev / research files ───────────────────────────────────
+**/notebooks/
+*.ipynb
+
+# ─── Environment & secrets ──────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── IDE & OS ───────────────────────────────────────────────
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ─── Git ────────────────────────────────────────────────────
+.git/
+.gitignore
+.gitattributes
+.github/
+
+# ─── Logs ───────────────────────────────────────────────────
+*.log
+logs/
+
+# ─── Node / Frontend (not needed for Python services) ───────
+frontend/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ─── Docker files themselves ────────────────────────────────
+docker-compose*.yml
+
+# ─── Project docs / media ───────────────────────────────────
+imgs/
+docs/
+*.md
+system/
