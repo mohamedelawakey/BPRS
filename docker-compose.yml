@@ -47,6 +47,8 @@ services:
       - REDIS_HOST=redis
     ports:
       - "8000:8000"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       db:
         condition: service_healthy
