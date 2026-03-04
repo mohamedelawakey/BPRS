@@ -10,10 +10,12 @@ RUN apt-get update && apt-get install -y \
 COPY backend/requirements.txt ./backend/
 COPY ml/requirements.txt ./ml/
 
+RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -r backend/requirements.txt -r ml/requirements.txt
 
 COPY backend/ /app/backend/
 COPY ml/ /app/ml/
+
 ENV PYTHONPATH=/app
 
 EXPOSE 8000
