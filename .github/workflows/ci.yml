@@ -24,6 +24,7 @@ jobs:
         run: |
           pip install -r ml/requirements.txt
           pip install -r backend/requirements.txt
+          pip install pytest==9.0.2 pytest-mock==3.15.1 pytest-asyncio
 
       - name: run tests
         run: |
